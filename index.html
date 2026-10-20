@@ -6,213 +6,177 @@
 <title>Научный подход в ИТ и ИИ · Рационализаторство</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F7F6F2;
+  --bg:#F9F8F4;
   --paper:#FFFFFF;
-  --ink:#1A1A1A;
-  --ink-2:#4A4A48;
-  --ink-3:#8A8A88;
-  --line:#E6E4DF;
-  --line-2:#F0EEEA;
-  --accent:#1E3A8A;
-  --accent-2:#B45309;
-  --accent-3:#0F5132;
-  --gold:#A67C00;
-  --shadow:0 24px 70px rgba(20,20,20,.08), 0 6px 16px rgba(20,20,20,.03);
+  --ink:#111111;
+  --ink-2:#444444;
+  --ink-3:#888888;
+  --line:#DCD9D2;
+  --line-dark:#111111;
+  --primary:#0F3A38;
+  --accent:#C05C3E;
+  --accent-light:#E8DACF;
+  --shadow:0 30px 60px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.03);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:14px;background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
 
-/* ============ TOOLBAR ============ */
-.toolbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(247,246,242,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--line-2)}
-.toolbar__brand{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
-.toolbar__brand span{color:var(--accent-2)}
+/* TOOLBAR */
+.toolbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:12px 32px;background:rgba(249,248,244,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.toolbar__brand{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;letter-spacing:.04em;text-transform:uppercase}
+.toolbar__brand span{color:var(--accent)}
 .toolbar__actions{display:flex;gap:12px}
-.btn{font-family:'Inter',sans-serif;font-weight:700;font-size:13px;padding:11px 20px;border-radius:100px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer;display:inline-flex;align-items:center;gap:9px;transition:all .25s ease}
-.btn:hover{background:var(--accent-2);border-color:var(--accent-2);transform:translateY(-1px)}
+.btn{font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:12px;padding:10px 18px;border:1px solid var(--ink);background:var(--ink);color:#fff;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .25s ease;border-radius:4px}
+.btn:hover{background:var(--accent);border-color:var(--accent)}
 .btn:disabled{opacity:.6;cursor:wait}
 .btn--ghost{background:transparent;color:var(--ink)}
-.btn--ghost:hover{background:var(--ink);color:var(--paper)}
-.btn svg{width:15px;height:15px;flex-shrink:0}
+.btn--ghost:hover{background:var(--ink);color:#fff}
+.btn svg{width:14px;height:14px}
 
-/* ============ DOCUMENT ============ */
-.document{max-width:210mm;margin:0 auto;padding:100px 0 140px;display:flex;flex-direction:column;gap:40px}
+/* DOCUMENT */
+.document{width:210mm;margin:0 auto;padding:90px 0 120px;display:flex;flex-direction:column;gap:32px}
 .page{display:block;width:210mm;height:297mm;min-width:210mm;max-width:210mm;min-height:297mm;max-height:297mm;box-sizing:border-box;background:var(--paper);position:relative;overflow:hidden;box-shadow:var(--shadow);padding:0;page-break-after:always;break-after:page;page-break-inside:avoid;break-inside:avoid}
-.page__inner{display:flex;flex-direction:column;padding:16mm 14mm 18mm;height:100%;width:100%;box-sizing:border-box;position:relative;z-index:2}
+.page__inner{display:flex;flex-direction:column;padding:16mm 14mm 16mm;height:100%;width:100%;box-sizing:border-box;position:relative;z-index:2}
 
-/* ============ PAGE CHROME ============ */
-.page__mark{position:absolute;top:8mm;left:14mm;display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);font-weight:600;z-index:5}
-.page__mark::before{content:"";width:20px;height:1px;background:var(--accent-2)}
-.page__num{position:absolute;top:8mm;right:14mm;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--ink-3);font-weight:600;z-index:5}
-.page__footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);border-top:1px solid var(--line-2);padding-top:8px;font-weight:600;z-index:5}
+/* PAGE CHROME */
+.page__mark{position:absolute;top:8mm;left:14mm;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
+.page__num{position:absolute;top:8mm;right:14mm;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--ink-3);font-weight:500}
+.page__footer{position:absolute;bottom:6mm;left:14mm;right:14mm;display:flex;justify-content:space-between;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-3);border-top:1px solid var(--line);padding-top:8px;font-weight:500}
 
-/* ============ DARK PAGE ============ */
-.page--dark{background:#111111;color:#fff}
-.page--dark .page__mark{color:rgba(255,255,255,.55)}
-.page--dark .page__mark::before{background:var(--accent-2)}
-.page--dark .page__num{color:rgba(255,255,255,.55)}
-.page--dark .page__footer{color:rgba(255,255,255,.5);border-top-color:rgba(255,255,255,.15)}
+/* DARK PAGE */
+.page--dark{background:var(--primary);color:#fff}
+.page--dark .page__mark,.page--dark .page__num,.page--dark .page__footer{color:rgba(255,255,255,.5)}
+.page--dark .page__footer{border-top-color:rgba(255,255,255,.15)}
 
-/* ============ COVER ============ */
-.cover{background:var(--paper);position:relative;overflow:hidden}
-.cover__lines{position:absolute;inset:0;pointer-events:none;z-index:0}
-.cover__inner{position:relative;z-index:2;display:flex;flex-direction:column;height:100%;padding:16mm 14mm 18mm;box-sizing:border-box}
-.cover__top{display:flex;justify-content:space-between;align-items:flex-start;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
-.cover__top .stamp{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border:1.5px solid var(--accent-2);color:var(--accent-2);font-family:'Playfair Display',serif;font-size:10px;letter-spacing:.1em;font-weight:700}
-.cover__main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:8mm 0}
-.cover__eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-2);font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:14px}
-.cover__eyebrow::before{content:"";width:30px;height:1px;background:var(--accent-2)}
-.cover__title{font-family:'Playfair Display',serif;font-weight:800;font-size:64px;line-height:.95;letter-spacing:-.03em;color:var(--ink);margin-bottom:24px}
-.cover__title em{font-style:normal;color:var(--accent-2);display:block}
-.cover__sub{font-size:16px;color:var(--ink-2);max-width:480px;line-height:1.65;font-weight:400}
-.cover__meta{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:auto;padding-top:32px;border-top:1px solid var(--line)}
-.cover__meta > div{display:flex;flex-direction:column;gap:2px}
-.cover__meta dt{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-bottom:6px}
-.cover__meta dd{font-size:14px;color:var(--ink);line-height:1.4;font-weight:500}
-.cover__meta dd.muted{font-size:13px;color:var(--ink-3)}
+/* COVER */
+.cover{background:var(--primary);color:#fff;position:relative;overflow:hidden}
+.cover__rings{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;pointer-events:none;opacity:.15}
+.cover__rings circle{fill:none;stroke:#fff;stroke-width:1}
+.cover__inner{position:relative;z-index:2;display:flex;flex-direction:column;height:100%;padding:16mm 14mm;box-sizing:border-box}
+.cover__top{display:flex;justify-content:space-between;align-items:flex-start;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.cover__main{flex:1;display:flex;flex-direction:column;justify-content:center}
+.cover__eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:16px}
+.cover__title{font-family:'Syne',sans-serif;font-weight:800;font-size:76px;line-height:.92;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:24px}
+.cover__title em{font-style:normal;color:var(--accent);display:block}
+.cover__sub{font-size:16px;color:rgba(255,255,255,.75);max-width:520px;line-height:1.6}
+.cover__meta{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid rgba(255,255,255,.2);padding-top:24px}
+.cover__meta > div{padding-right:16px;border-right:1px solid rgba(255,255,255,.15);padding-left:16px}
+.cover__meta > div:first-child{padding-left:0}
+.cover__meta > div:last-child{border-right:none;padding-right:0}
+.cover__meta dt{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:600;margin-bottom:6px}
+.cover__meta dd{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;color:#fff;line-height:1.2;margin-bottom:2px}
+.cover__meta dd.muted{font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:400;color:rgba(255,255,255,.5)}
 
-/* ============ SECTION HEADINGS ============ */
-.kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent-2);font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:12px}
-.kicker::before{content:"";width:18px;height:1px;background:var(--accent-2)}
-.page--dark .kicker{color:var(--accent-2)}
-.h-sec{font-family:'Playfair Display',serif;font-weight:700;font-size:34px;line-height:1.08;letter-spacing:-.02em;margin-bottom:10px;color:var(--ink)}
-.h-sec em{font-style:normal;color:var(--accent-2)}
+/* TYPOGRAPHY */
+.kicker{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.kicker::before{content:"";width:16px;height:2px;background:var(--accent)}
+.h-sec{font-family:'Syne',sans-serif;font-weight:700;font-size:38px;line-height:1.05;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:12px;color:var(--ink)}
+.h-sec em{font-style:normal;color:var(--accent)}
 .page--dark .h-sec{color:#fff}
-.page--dark .h-sec em{color:var(--accent-2)}
-.lede{font-size:14px;color:var(--ink-2);max-width:560px;line-height:1.65;margin-bottom:22px}
+.page--dark .h-sec em{color:var(--accent)}
+.lede{font-size:13.5px;color:var(--ink-2);max-width:560px;line-height:1.6;margin-bottom:20px}
 .page--dark .lede{color:rgba(255,255,255,.7)}
 
-/* ============ STATS ============ */
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:2px solid var(--ink);margin-bottom:20px}
-.page--dark .stats{border-top-color:#fff}
-.stat{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:20px 18px 22px}
-.stat:last-child{border-right:none}
-.page--dark .stat{border-color:rgba(255,255,255,.15)}
-.stat__num{font-family:'Playfair Display',serif;font-weight:800;font-size:44px;line-height:1;letter-spacing:-.03em;color:var(--ink)}
-.page--dark .stat__num{color:#fff}
-.stat__num sup{font-size:18px;color:var(--accent-2);vertical-align:top;margin-left:3px;font-weight:700}
-.stat__label{font-size:12px;color:var(--ink-2);margin-top:10px;line-height:1.5}
-.page--dark .stat__label{color:rgba(255,255,255,.7)}
-.stat__src{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-top:10px;font-weight:600}
-
-/* ============ QUOTE ============ */
-.quote{border-left:2px solid var(--accent-2);padding:6px 0 6px 22px;margin:20px 0;font-family:'Playfair Display',serif;font-size:18px;line-height:1.45;color:var(--ink);font-style:italic;font-weight:400;max-width:580px}
-.page--dark .quote{color:#fff}
-.quote cite{display:block;font-style:normal;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-2);margin-top:14px;font-weight:700}
-
-/* ============ CALLOUT ============ */
-.callout{border:1px solid var(--ink);padding:16px 20px;margin:14px 0;position:relative;background:linear-gradient(180deg,rgba(30,58,138,.03),transparent)}
-.page--dark .callout{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.05)}
-.callout__title{font-family:'Playfair Display',serif;font-weight:700;font-size:14px;margin-bottom:8px;letter-spacing:-.01em;line-height:1.3;color:var(--ink)}
-.page--dark .callout__title{color:#fff}
-.callout p{font-size:12.5px;color:var(--ink-2);line-height:1.6}
-.page--dark .callout p{color:rgba(255,255,255,.7)}
-
-/* ============ GRID ============ */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0}
+/* GRID & LAYOUTS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:16px 0}
 .g2 > *{min-width:0}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line-dark);margin:16px 0}
+.split > div{padding:20px;border-right:1px solid var(--line-dark)}
+.split > div:last-child{border-right:none}
 
-/* ============ CHIP ============ */
-.chip{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--line);color:var(--ink-2);margin:0 6px 6px 0;font-weight:500}
-.page--dark .chip{border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.7)}
-.chip--accent{border-color:var(--accent-2);color:var(--accent-2)}
+/* KPI / BIG NUMBERS */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:2px solid var(--ink);margin:20px 0}
+.page--dark .kpi-row{border-top-color:#fff}
+.kpi{padding:16px 12px;border-right:1px solid var(--line)}
+.page--dark .kpi{border-right-color:rgba(255,255,255,.15)}
+.kpi:last-child{border-right:none}
+.kpi__num{font-family:'Syne',sans-serif;font-weight:800;font-size:40px;line-height:.9;letter-spacing:-.03em;color:var(--ink);margin-bottom:8px}
+.page--dark .kpi__num{color:#fff}
+.kpi__num sup{font-size:18px;color:var(--accent);vertical-align:top;font-weight:700}
+.kpi__label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-3);font-weight:500;line-height:1.4}
+.page--dark .kpi__label{color:rgba(255,255,255,.6)}
 
-/* ============ BIG NUMBER PANEL ============ */
-.bignum-panel{display:grid;grid-template-columns:1fr 1fr;gap:0;border:2px solid var(--ink);margin:16px 0}
-.page--dark .bignum-panel{border-color:#fff}
-.bignum-panel > div{padding:22px 20px;border-right:2px solid var(--ink)}
-.page--dark .bignum-panel > div{border-right-color:#fff}
-.bignum-panel > div:last-child{border-right:none}
-.bignum{font-family:'Playfair Display',serif;font-weight:800;font-size:72px;line-height:.85;letter-spacing:-.04em;color:var(--ink);margin-bottom:10px}
-.page--dark .bignum{color:#fff}
-.bignum sup{font-size:28px;color:var(--accent-2);vertical-align:top;font-weight:700}
-.bignum-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-bottom:8px}
-.page--dark .bignum-label{color:rgba(255,255,255,.5)}
-.bignum-desc{font-size:12px;color:var(--ink-2);line-height:1.5}
-.page--dark .bignum-desc{color:rgba(255,255,255,.7)}
+/* CARDS / CALLOUTS */
+.card{border:1px solid var(--line-dark);padding:20px;background:var(--paper);position:relative}
+.card--fill{background:var(--accent-light);border-color:var(--accent-light)}
+.page--dark .card{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.2)}
+.card__title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:10px;text-transform:uppercase;color:var(--ink)}
+.page--dark .card__title{color:#fff}
+.card p{font-size:12px;color:var(--ink-2);line-height:1.5}
+.page--dark .card p{color:rgba(255,255,255,.7)}
 
-/* ============ BAR CHART ============ */
-.chart{margin:14px 0}
-.chart__title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-bottom:10px}
-.page--dark .chart__title{color:rgba(255,255,255,.5)}
-.chart__row{display:grid;grid-template-columns:110px 1fr 48px;gap:12px;align-items:center;margin-bottom:8px;font-size:12px}
-.chart__label{color:var(--ink-2);font-weight:600}
-.page--dark .chart__label{color:rgba(255,255,255,.8)}
-.chart__track{height:16px;background:var(--line-2);position:relative;overflow:hidden}
-.page--dark .chart__track{background:rgba(255,255,255,.12)}
-.chart__fill{position:absolute;top:0;left:0;bottom:0;background:var(--ink)}
-.page--dark .chart__fill{background:var(--accent-2)}
-.chart__fill--accent{background:var(--accent)}
-.chart__fill--gold{background:var(--gold)}
-.chart__val{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;text-align:right;color:var(--ink);letter-spacing:-.02em}
-.page--dark .chart__val{color:#fff}
+/* VISUALIZATIONS (NEW) */
+/* Concentric Idea Ripple */
+.ripple-box{position:relative;height:200px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);margin:16px 0}
+.ripple-box svg{width:180px;height:180px}
+.ripple-box circle{fill:none;stroke:var(--primary);stroke-width:1.5}
+.ripple-box text{font-family:'IBM Plex Mono',monospace;font-size:10px;fill:var(--ink);font-weight:600}
 
-/* ============ TABLE ============ */
-.dtable{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0}
-.dtable th,.dtable td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45}
-.dtable th{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);font-weight:600;border-bottom:1.5px solid var(--ink);padding-bottom:10px}
-.page--dark .dtable th{border-bottom-color:#fff;color:rgba(255,255,255,.6)}
-.page--dark .dtable td{border-bottom-color:rgba(255,255,255,.15);color:rgba(255,255,255,.8)}
-.dtable td strong{font-weight:700;color:var(--ink)}
-.page--dark .dtable td strong{color:#fff}
-.dtable tr:last-child td{border-bottom:none}
-.dtable .num{font-family:'Playfair Display',serif;font-size:16px;letter-spacing:-.02em;color:var(--accent-2);font-weight:700}
+/* Quadrant / Radar Matrix */
+.matrix{position:relative;height:240px;border-left:2px solid var(--ink);border-bottom:2px solid var(--ink);margin:20px 40px 20px 20px}
+.page--dark .matrix{border-color:#fff}
+.matrix__label-x{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;color:var(--ink-3)}
+.matrix__label-y{position:absolute;top:50%;left:-30px;transform:translateY(-50%) rotate(-90deg);font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;color:var(--ink-3)}
+.matrix__dot{position:absolute;width:14px;height:14px;border-radius:50%;background:var(--accent);transform:translate(-50%,50%)}
+.matrix__dot--dark{background:var(--primary)}
+.matrix__tooltip{position:absolute;top:-28px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:4px 8px;font-family:'IBM Plex Mono',monospace;font-size:8px;white-space:nowrap;border-radius:2px;opacity:0;transition:opacity .2s}
+.matrix__dot:hover .matrix__tooltip{opacity:1}
 
-/* ============ LIST ============ */
-.list-num{counter-reset:ln;margin:12px 0}
-.list-num li{counter-increment:ln;list-style:none;position:relative;padding:12px 0 12px 44px;border-bottom:1px solid var(--line-2);font-size:13px;line-height:1.55;color:var(--ink-2)}
-.page--dark .list-num li{border-bottom-color:rgba(255,255,255,.15);color:rgba(255,255,255,.7)}
-.list-num li:last-child{border-bottom:none}
-.list-num li::before{content:counter(ln,decimal-leading-zero);position:absolute;left:0;top:13px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--accent-2);font-weight:600}
-.list-num li strong{color:var(--ink);font-weight:700}
-.page--dark .list-num li strong{color:#fff}
+/* Segmented Bar */
+.seg-bar{display:flex;height:24px;margin:12px 0;border:1px solid var(--line-dark)}
+.seg-bar > div{display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;color:#fff}
+.seg-bar--1{background:var(--primary);width:60%}
+.seg-bar--2{background:var(--accent);width:25%}
+.seg-bar--3{background:var(--line);color:var(--ink);width:15%}
 
-/* ============ TIMELINE ============ */
-.tl-row{display:grid;grid-template-columns:110px 1fr;gap:20px;padding:16px 0;border-bottom:1px solid var(--line);align-items:flex-start}
-.tl-row:first-child{border-top:2px solid var(--ink)}
-.tl-row:last-child{border-bottom:2px solid var(--ink)}
-.page--dark .tl-row{border-color:rgba(255,255,255,.15)}
-.tl-date{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--accent-2);line-height:1.1}
-.tl-date small{display:block;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;font-weight:600;color:var(--ink-3);margin-top:4px}
-.page--dark .tl-date small{color:rgba(255,255,255,.5)}
-.tl-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:6px;color:var(--ink)}
-.page--dark .tl-title{color:#fff}
-.tl-text{font-size:12px;color:var(--ink-2);line-height:1.5}
-.page--dark .tl-text{color:rgba(255,255,255,.7)}
+/* Donut Chart */
+.donut-wrap{display:flex;align-items:center;gap:24px;margin:16px 0}
+.donut{width:120px;height:120px}
+.donut circle{fill:none;stroke-width:16}
+.donut .bg{stroke:var(--line)}
+.donut .fg{stroke:var(--accent);stroke-dasharray:251.2;stroke-dashoffset:188.4;stroke-linecap:butt}
+.donut-legend{display:flex;flex-direction:column;gap:8px}
+.donut-legend > div{display:flex;align-items:center;gap:8px;font-size:11px;font-family:'Plus Jakarta Sans',sans-serif}
+.donut-dot{width:10px;height:10px;border-radius:2px}
 
-/* ============ EXPERT ============ */
-.expert{display:grid;grid-template-columns:110px 1fr;gap:24px;align-items:center;padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:20px 0}
-.page--dark .expert{border-color:rgba(255,255,255,.2)}
-.expert__photo{width:110px;height:110px;border-radius:50%;position:relative;overflow:hidden;background:linear-gradient(135deg,#1a1a1a 0%,#2c2c2a 100%);border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
-.page--dark .expert__photo{border-color:rgba(255,255,255,.2)}
-.expert__photo::before{content:"";position:absolute;inset:8px;border:1px dashed rgba(255,255,255,.3);border-radius:50%;z-index:2;pointer-events:none}
-.expert__photo img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:1}
-.expert__name{font-family:'Playfair Display',serif;font-weight:700;font-size:24px;letter-spacing:-.02em;margin-bottom:6px;color:var(--ink)}
+/* Step Chart / Timeline */
+.step-chart{display:flex;align-items:flex-end;gap:12px;height:160px;border-bottom:2px solid var(--ink);margin:20px 0;padding-bottom:0}
+.page--dark .step-chart{border-bottom-color:#fff}
+.step{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;position:relative}
+.step__bar{width:100%;background:var(--primary);position:relative;border:1px solid var(--line-dark)}
+.step__bar--accent{background:var(--accent)}
+.step__val{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:6px}
+.step__label{font-family:'IBM Plex Mono',monospace;font-size:8px;margin-top:8px;text-align:center;color:var(--ink-3);height:24px}
+
+/* QUOTE */
+.quote{border-left:4px solid var(--accent);padding:12px 0 12px 20px;margin:20px 0;font-family:'Syne',sans-serif;font-size:18px;line-height:1.4;color:var(--ink);font-weight:500;max-width:580px}
+.page--dark .quote{color:#fff}
+.quote cite{display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-top:12px;font-weight:600}
+
+/* EXPERT */
+.expert{display:grid;grid-template-columns:100px 1fr;gap:24px;align-items:center;padding:20px 0;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);margin-top:auto}
+.page--dark .expert{border-color:#fff}
+.expert__photo{width:100px;height:100px;border-radius:50%;position:relative;overflow:hidden;background:var(--primary);border:1px solid var(--line)}
+.expert__photo img{width:100%;height:100%;object-fit:cover;display:block}
+.expert__name{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;color:var(--ink)}
 .page--dark .expert__name{color:#fff}
-.expert__role{font-size:12.5px;color:var(--ink-2);margin-bottom:14px;line-height:1.55}
+.expert__role{font-size:11px;color:var(--ink-2);margin-bottom:12px;line-height:1.5}
 .page--dark .expert__role{color:rgba(255,255,255,.7)}
 .expert__links{display:flex;gap:16px;flex-wrap:wrap}
-.expert__links a{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-2);text-decoration:none;border-bottom:1px solid var(--accent-2);padding-bottom:3px;font-weight:600}
-.page--dark .expert__links a{color:var(--accent-2)}
+.expert__links a{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;font-weight:600}
 
-/* ============ CTA ============ */
-.cta{background:var(--ink);color:#fff;padding:32px 30px;margin-top:auto;position:relative;overflow:hidden}
-.cta::before{content:"";position:absolute;top:-50px;right:-50px;width:180px;height:180px;border:1px solid rgba(255,255,255,.15);border-radius:50%}
-.cta::after{content:"";position:absolute;bottom:-70px;left:-30px;width:140px;height:140px;border:1px solid rgba(255,255,255,.1);border-radius:50%}
-.cta h3{font-family:'Playfair Display',serif;font-weight:700;font-size:24px;line-height:1.2;margin-bottom:12px;position:relative;z-index:2;letter-spacing:-.015em}
-.cta p{font-size:13px;color:rgba(255,255,255,.75);line-height:1.6;position:relative;z-index:2;max-width:460px}
-.cta__meta{display:flex;gap:24px;margin-top:20px;position:relative;z-index:2;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:600}
+/* CTA ENDING */
+.cta-end{background:var(--ink);color:#fff;padding:28px 24px;margin-top:24px;position:relative;overflow:hidden}
+.cta-end::before{content:"";position:absolute;top:-40px;right:-40px;width:150px;height:150px;border:2px solid rgba(255,255,255,.1);border-radius:50%}
+.cta-end h3{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;line-height:1.1;margin-bottom:10px;position:relative;z-index:2;text-transform:uppercase}
+.cta-end p{font-size:12px;color:rgba(255,255,255,.7);line-height:1.6;position:relative;z-index:2;max-width:480px}
+.cta-end__meta{display:flex;gap:20px;margin-top:16px;position:relative;z-index:2;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5)}
 
-/* ============ DECOR ============ */
-.deco-circle{position:absolute;border-radius:50%;pointer-events:none;z-index:0}
-.deco-circle--accent{border:1px solid var(--accent-2)}
-.deco-circle--blue{border:1px solid rgba(30,58,138,.15)}
-.deco-circle--gold{border:1px solid rgba(166,124,0,.2)}
-
-/* ============ PRINT ============ */
+/* PRINT */
 @page{size:210mm 297mm;margin:0}
 @media print{
   html, body{margin:0 !important;padding:0 !important;width:210mm;background:var(--paper)}
@@ -244,30 +208,28 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;backg
 
 <!-- PAGE 1 · COVER -->
 <section class="page cover">
-  <div class="cover__lines">
-    <svg viewBox="0 0 210 297" preserveAspectRatio="none">
-      <circle cx="180" cy="60" r="50" fill="none" stroke="#B45309" stroke-width="0.5" opacity="0.3"/>
-      <circle cx="180" cy="60" r="35" fill="none" stroke="#1E3A8A" stroke-width="0.5" opacity="0.2"/>
-      <circle cx="180" cy="60" r="20" fill="none" stroke="#A67C00" stroke-width="0.5" opacity="0.3"/>
-      <line x1="0" y1="230" x2="210" y2="230" stroke="#E6E4DF" stroke-width="0.5"/>
-      <line x1="0" y1="238" x2="210" y2="238" stroke="#E6E4DF" stroke-width="0.5"/>
+  <div class="cover__rings">
+    <svg viewBox="0 0 600 600">
+      <circle cx="300" cy="300" r="100"/>
+      <circle cx="300" cy="300" r="200"/>
+      <circle cx="300" cy="300" r="300"/>
     </svg>
   </div>
   <div class="cover__inner">
     <div class="cover__top">
-      <span class="stamp">RESEARCH · 2026</span>
-      <span>Файл · RT-01</span>
+      <span>REPORT · 2026</span>
+      <span>VOL. 1 · R&D</span>
     </div>
     <div class="cover__main">
       <div class="cover__eyebrow">Научный подход в ИТ и ИИ</div>
       <h1 class="cover__title">
-        Рационализаторство:<br>
-        <em>от идеи к системе</em>
+        Наука<br>
+        <em>умерла?</em><br>
+        Даёшь R&D
       </h1>
       <p class="cover__sub">
-        Почему массовое изобретательство, которое когда-то двигало промышленность,
-        оказалось невостребованным в эпоху рыночной экономики, и как научный подход
-        может вернуть культуру непрерывных улучшений в ИТ и разработку ИИ.
+        Почему рационализаторство и научный метод исчезли из российского ИТ, 
+        и как инженерная культура может вернуть драйв, качество и прорывы.
       </p>
     </div>
     <dl class="cover__meta">
@@ -279,12 +241,12 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;backg
       <div>
         <dt>Основа</dt>
         <dd>Открытые данные</dd>
-        <dd class="muted">исследования · статистика · кейсы</dd>
+        <dd class="muted">исследования · статистика</dd>
       </div>
       <div>
         <dt>Формат</dt>
         <dd>16 страниц</dd>
-        <dd class="muted">данные · графики · аналитика</dd>
+        <dd class="muted">данные · графики · кейсы</dd>
       </div>
       <div>
         <dt>Период</dt>
@@ -295,380 +257,403 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;backg
   </div>
 </section>
 
-<!-- PAGE 2 · IDEA OF RATIONALIZATION -->
+<!-- PAGE 2 · IDEA -->
 <section class="page">
-  <div class="deco-circle deco-circle--accent" style="top:-30mm;right:-30mm;width:100mm;height:100mm"></div>
   <div class="page__mark">01 · Идея</div>
   <div class="page__num">02 / 16</div>
-  <div class="page__inner" style="padding-top:16mm">
-    <div class="kicker">Что такое рационализаторство</div>
-    <h2 class="h-sec">От <em>идеи</em> к системе</h2>
+  <div class="page__inner">
+    <div class="kicker">Концепция</div>
+    <h2 class="h-sec">От идеи <em>к системе</em></h2>
     <p class="lede">
-      Рационализаторство — это не просто «подача предложений». Это системный процесс,
-      в котором сотрудники выявляют узкие места, предлагают решения и участвуют
-      в их внедрении. В советской модели он был массовым, но не всегда эффективным.
+      Рационализаторство — это не просто «подача предложений». Это системный процесс, 
+      в котором сотрудники выявляют узкие места, предлагают решения и участвуют 
+      в их внедрении. В советской модели он был массовым, но не всегда эффективным. 
       В современном ИТ он либо отсутствует, либо существует в точечных формах.
     </p>
 
-    <div class="bignum-panel">
+    <div class="ripple-box">
+      <svg viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="20" stroke="#C05C3E" stroke-width="2"/>
+        <circle cx="100" cy="100" r="50"/>
+        <circle cx="100" cy="100" r="80"/>
+        <circle cx="100" cy="100" r="110"/>
+        <text x="100" y="105" text-anchor="middle">Идея</text>
+        <text x="100" y="55" text-anchor="middle">Гипотеза</text>
+        <text x="100" y="25" text-anchor="middle">Внедрение</text>
+      </svg>
+    </div>
+
+    <div class="split">
       <div>
-        <div class="bignum-label">Массовость в СССР</div>
-        <div class="bignum">2<sup>%</sup></div>
-        <div class="bignum-desc">трудящихся ежегодно участвовали в рационализаторстве</div>
+        <div class="card__title" style="color:var(--accent)">Массовость в СССР</div>
+        <p>Ежегодно в рационализаторстве участвовали около 2% трудящихся. Подавалось до 25 млн предложений в год.</p>
       </div>
       <div>
-        <div class="bignum-label">Внедрение в СССР</div>
-        <div class="bignum">22<sup>%</sup></div>
-        <div class="bignum-desc">изобретений находили применение в народном хозяйстве</div>
+        <div class="card__title" style="color:var(--primary)">Внедрение</div>
+        <p>Лишь 22% изобретений находили применение. Система оценивала количество, а не качество.</p>
       </div>
     </div>
 
-    <div class="callout">
-      <div class="callout__title">Ключевая проблема</div>
-      <p>Система оценивала успех по количеству поданных предложений, а не по их реальному внедрению. В результате — тысячи формальных идей и единицы работающих решений.</p>
-    </div>
-
-    <div class="callout" style="margin-top:16px">
-      <div class="callout__title">Что это значит для ИТ</div>
-      <p>В ИТ-секторе рационализаторство не прижилось. Причины — высокая загрузка, отсутствие времени на «вызревание идей» и краткосрочные KPI, ориентированные на скорость, а не на качество.</p>
+    <div class="card card--fill" style="margin-top:16px">
+      <div class="card__title">Что это значит для ИТ</div>
+      <p>В ИТ-секторе рационализаторство не прижилось. Причины — высокая загрузка, отсутствие времени на «вызревание идей» и краткосрочные KPI.</p>
     </div>
   </div>
   <div class="page__footer"><span>Научный подход · ИТ и ИИ</span><span>01 · Идея</span></div>
 </section>
 
-<!-- PAGE 3 · MARKET STATS -->
+<!-- PAGE 3 · STATS -->
 <section class="page">
   <div class="page__mark">02 · Рынок</div>
   <div class="page__num">03 / 16</div>
-  <div class="page__inner" style="padding-top:16mm">
+  <div class="page__inner">
     <div class="kicker">Российский ИИ-рынок</div>
     <h2 class="h-sec">Рост <em>есть</em>, но...</h2>
     <p class="lede">
       Объём российского рынка ИИ растёт, но инвестиции в фундаментальные
-      исследования и эксперименты остаются незначительными по сравнению
-      с мировыми показателями.
+      исследования и эксперименты остаются незначительными.
     </p>
 
-    <div class="stats">
-      <div class="stat">
-        <div class="stat__num">316<sup>млрд ₽</sup></div>
-        <div class="stat__label">объём российского ИИ-рынка по итогам 2025 года</div>
-        <div class="stat__src">CNews · AIANA</div>
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi__num">316<sup>млрд ₽</sup></div>
+        <div class="kpi__label">объём ИИ-рынка в 2025</div>
       </div>
-      <div class="stat">
-        <div class="stat__num">29.7<sup>%</sup></div>
-        <div class="stat__label">рост рынка за год</div>
-        <div class="stat__src">CNews · AIANA</div>
+      <div class="kpi">
+        <div class="kpi__num">29.7<sup>%</sup></div>
+        <div class="kpi__label">рост за год</div>
       </div>
-      <div class="stat">
-        <div class="stat__num">58<sup>млрд ₽</sup></div>
-        <div class="stat__label">объём сегмента генеративного ИИ</div>
-        <div class="stat__src">Just AI · Onside</div>
+      <div class="kpi">
+        <div class="kpi__num">58<sup>млрд ₽</sup></div>
+        <div class="kpi__label">сегмент GenAI</div>
       </div>
-      <div class="stat">
-        <div class="stat__num">883</div>
-        <div class="stat__label">компаний работают на российском ИИ-рынке</div>
-        <div class="stat__src">AIANA</div>
+      <div class="kpi">
+        <div class="kpi__num">883</div>
+        <div class="kpi__label">компании на рынке</div>
       </div>
     </div>
 
-    <div class="chart" style="margin-top:20px">
-      <div class="chart__title">Инвестиции в ИИ: Россия vs мир (доля ВВП)</div>
-      <div class="chart__row"><div class="chart__label">Россия</div><div class="chart__track"><div class="chart__fill" style="width:2%"></div></div><div class="chart__val">0.0019%</div></div>
-      <div class="chart__row"><div class="chart__label">Мир</div><div class="chart__track"><div class="chart__fill chart__fill--accent" style="width:100%"></div></div><div class="chart__val">0.17%</div></div>
+    <div class="step-chart">
+      <div class="step">
+        <div class="step__val">316</div>
+        <div class="step__bar" style="height:80%"></div>
+        <div class="step__label">2025</div>
+      </div>
+      <div class="step">
+        <div class="step__val">244</div>
+        <div class="step__bar" style="height:60%"></div>
+        <div class="step__label">2024</div>
+      </div>
+      <div class="step">
+        <div class="step__val">179</div>
+        <div class="step__bar" style="height:45%"></div>
+        <div class="step__label">2023</div>
+      </div>
+      <div class="step">
+        <div class="step__val">112</div>
+        <div class="step__bar" style="height:30%"></div>
+        <div class="step__label">2022</div>
+      </div>
     </div>
 
-    <div class="callout">
-      <div class="callout__title">Разрыв в 87 раз</div>
-      <p>Объём венчурных вложений в ИИ в России уступает мировому уровню в 87 раз. Это означает, что фундаментальные исследования и эксперименты почти не финансируются.</p>
+    <div class="card" style="margin-top:16px">
+      <div class="card__title">Разрыв в 87 раз</div>
+      <p>Объём венчурных вложений в ИИ в России уступает мировому уровню в 87 раз. Фундаментальные исследования почти не финансируются.</p>
     </div>
   </div>
   <div class="page__footer"><span>Научный подход · ИТ и ИИ</span><span>02 · Рынок</span></div>
 </section>
 
-<!-- PAGE 4 · INVESTMENT STRUCTURE -->
-<section class="page">
-  <div class="deco-circle deco-circle--blue" style="bottom:-40mm;left:-40mm;width:120mm;height:120mm"></div>
+<!-- PAGE 4 · INVESTMENT -->
+<section class="page page--dark">
   <div class="page__mark">03 · Инвестиции</div>
   <div class="page__num">04 / 16</div>
-  <div class="page__inner" style="padding-top:16mm">
-    <div class="kicker">Структура инвестиций</div>
-    <h2 class="h-sec">Кто <em>платит</em> за ИИ</h2>
-    <p class="lede">
+  <div class="page__inner">
+    <div class="kicker">Структура</div>
+    <h2 class="h-sec" style="color:#fff">Кто <em>платит</em> за ИИ</h2>
+    
+    <div class="seg-bar" style="margin-top:24px">
+      <div class="seg-bar--1">60% Корпорации</div>
+      <div class="seg-bar--2">25% Венчур</div>
+      <div class="seg-bar--3">15% Гос-во</div>
+    </div>
+
+    <p class="lede" style="color:rgba(255,255,255,.7);margin-top:20px">
       Почти все инвестиции в российский ИИ сосредоточены в руках крупных корпораций.
       Венчурный капитал практически отсутствует, а значит, и пространство для
       экспериментов и научного поиска ограничено.
     </p>
 
-    <table class="dtable">
-      <thead>
-        <tr>
-          <th>Компания</th>
-          <th>Инвестиции в ИИ (млрд ₽)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td><strong>Сбер</strong></td><td class="num">150</td></tr>
-        <tr><td><strong>Яндекс</strong></td><td class="num">55</td></tr>
-        <tr><td><strong>Другие корпорации</strong></td><td class="num">15</td></tr>
-        <tr><td><strong>Венчурные фонды</strong></td><td class="num">~4</td></tr>
-      </tbody>
-    </table>
-
-    <div class="callout" style="margin-top:16px">
-      <div class="callout__title">Соотношение 1 к 52</div>
-      <p>На каждый доллар венчурного капитала в российском ИИ приходится 52 доллара корпоративных инвестиций. В мире это соотношение — 1 к 2. Это означает, что независимые эксперименты и научные стартапы почти не имеют финансирования.</p>
+    <div class="g2" style="margin-top:20px">
+      <div class="card">
+        <div class="card__title" style="color:#fff">Корпорации</div>
+        <p>Сбер, Яндекс, VK, Т-Банк. Инвестируют в прикладные проекты с быстрой отдачей. Фундаментальные исследования — редкость.</p>
+      </div>
+      <div class="card">
+        <div class="card__title" style="color:#fff">Венчур</div>
+        <p>Фонды финансируют стартапы, но в ИИ их доля минимальна. Без венчура нет рискованных экспериментов.</p>
+      </div>
     </div>
 
-    <div class="callout" style="margin-top:12px">
-      <div class="callout__title">Следствие для научного подхода</div>
-      <p>Без венчурного капитала нет пространства для рискованных экспериментов. Компании финансируют только прикладные проекты с быстрой отдачей, а фундаментальные исследования остаются в стороне.</p>
+    <div class="card" style="margin-top:20px;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3)">
+      <div class="card__title" style="color:#fff">Соотношение 1 к 52</div>
+      <p style="color:rgba(255,255,255,.8)">На каждый доллар венчурного капитала в российском ИИ приходится 52 доллара корпоративных инвестиций. В мире это соотношение — 1 к 2.</p>
     </div>
   </div>
   <div class="page__footer"><span>Научный подход · ИТ и ИИ</span><span>03 · Инвестиции</span></div>
 </section>
 
-<!-- PAGE 5 · IT MANAGERS STRESS -->
-<section class="page page--dark">
-  <div class="deco-circle deco-circle--accent" style="top:-30mm;left:-30mm;width:100mm;height:100mm;opacity:.2"></div>
+<!-- PAGE 5 · STRESS -->
+<section class="page">
   <div class="page__mark">04 · Барьеры</div>
   <div class="page__num">05 / 16</div>
-  <div class="page__inner" style="padding-top:16mm">
+  <div class="page__inner">
     <div class="kicker">Барьеры для ИТ</div>
-    <h2 class="h-sec" style="color:#fff">Бюрократия <em>и стресс</em></h2>
+    <h2 class="h-sec">Бюрократия <em>и стресс</em></h2>
 
-    <div class="stats" style="border-top-color:#fff">
-      <div class="stat" style="border-color:rgba(255,255,255,.15)">
-        <div class="stat__num" style="color:#fff">48<sup>%</sup></div>
-        <div class="stat__label" style="color:rgba(255,255,255,.7)">ИТ-руководителей называют рост бюрократии и непрозрачность решений главным источником стресса</div>
-        <div class="stat__src" style="color:rgba(255,255,255,.5)">South HUB · 2025</div>
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi__num">48<sup>%</sup></div>
+        <div class="kpi__label">рост бюрократии — главный стресс</div>
       </div>
-      <div class="stat" style="border-color:rgba(255,255,255,.15)">
-        <div class="stat__num" style="color:#fff">49<sup>%</sup></div>
-        <div class="stat__label" style="color:rgba(255,255,255,.7)">испытывают финансовое давление</div>
-        <div class="stat__src" style="color:rgba(255,255,255,.5)">South HUB · 2025</div>
+      <div class="kpi">
+        <div class="kpi__num">49<sup>%</sup></div>
+        <div class="kpi__label">финансовое давление</div>
       </div>
-      <div class="stat" style="border-color:rgba(255,255,255,.15)">
-        <div class="stat__num" style="color:#fff">45<sup>%</sup></div>
-        <div class="stat__label" style="color:rgba(255,255,255,.7)">страдают от проблем организационных процессов</div>
-        <div class="stat__src" style="color:rgba(255,255,255,.5)">South HUB · 2025</div>
+      <div class="kpi">
+        <div class="kpi__num">45<sup>%</sup></div>
+        <div class="kpi__label">проблемы орг. процессов</div>
       </div>
-      <div class="stat" style="border-color:rgba(255,255,255,.15)">
-        <div class="stat__num" style="color:#fff">60<sup>%</sup></div>
-        <div class="stat__label" style="color:rgba(255,255,255,.7)">отметили рост рабочей нагрузки в 2025 году</div>
-        <div class="stat__src" style="color:rgba(255,255,255,.5)">South HUB · 2025</div>
+      <div class="kpi">
+        <div class="kpi__num">60<sup>%</sup></div>
+        <div class="kpi__label">рост нагрузки в 2025</div>
       </div>
     </div>
 
-    <blockquote class="quote" style="color:#fff">
+    <div class="quote">
       Ключевые источники стресса для ИТ-руководителей находились не в плоскости
-      работы с технологиями, а в менеджерских вызовах: управление и распределение
-      ресурсов.
+      работы с технологиями, а в менеджерских вызовах: управление и распределение ресурсов.
       <cite>South HUB · 2025</cite>
-    </blockquote>
+    </div>
 
-    <div class="callout" style="border-color:rgba(255,255,255,.25)">
-      <div class="callout__title" style="color:#fff">Парадокс</div>
-      <p style="color:rgba(255,255,255,.7)">Компании внедряют ИИ, чтобы ускорить разработку, но при этом растёт бюрократия и нагрузка на руководителей. В результате на научный подход и эксперименты не остаётся ни времени, ни ресурсов.</p>
+    <div class="g2">
+      <div class="card">
+        <div class="card__title">Парадокс</div>
+        <p>Компании внедряют ИИ, чтобы ускорить разработку, но при этом растёт бюрократия и нагрузка на руководителей. В результате на научный подход и эксперименты не остаётся ни времени, ни ресурсов.</p>
+      </div>
+      <div class="card">
+        <div class="card__title">Следствие</div>
+        <p>Вместо научного поиска — «тушение пожаров». Вместо экспериментов — рутина. Это убивает инновации.</p>
+      </div>
     </div>
   </div>
   <div class="page__footer"><span>Научный подход · ИТ и ИИ</span><span>04 · Барьеры</span></div>
 </section>
 
-<!-- PAGE 6 · PRODUCT INITIATIVES -->
+<!-- PAGE 6 · QUALITY -->
 <section class="page">
   <div class="page__mark">05 · Качество</div>
   <div class="page__num">06 / 16</div>
-  <div class="page__inner" style="padding-top:16mm">
+  <div class="page__inner">
     <div class="kicker">Продуктовые инициативы</div>
     <h2 class="h-sec">Скорость <em>без качества</em></h2>
-    <p class="lede">
-      Компании стремятся выпускать продукты быстрее, но качество решений
-      падает. Более половины продуктовых инициатив не достигают заявленных целей.
+    
+    <div class="kpi-row" style="border-top-color:var(--accent)">
+      <div class="kpi">
+        <div class="kpi__num" style="color:var(--accent)">53<sup>%</sup></div>
+        <div class="kpi__label">не достигают целей</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi__num" style="color:var(--accent)">32<sup>%</sup></div>
+        <div class="kpi__label">ведут до 100 сервисов параллельно</div>
+      </div>
+    </div>
+
+    <p class="lede" style="margin-top:16px">
+      Компании стремятся выпускать продукты быстрее, но качество решений падает. 
+      Более половины продуктовых инициатив не достигают заявленных целей.
     </p>
 
-    <div class="bignum-panel">
+    <div class="split">
       <div>
-        <div class="bignum-label">Не достигают целей</div>
-        <div class="bignum">53<sup>%</sup></div>
-        <div class="bignum-desc">продуктовых инициатив в крупных компаниях</div>
+        <div class="card__title" style="color:var(--accent)">Причины</div>
+        <ul style="list-style:none;padding:0;margin:0;font-size:12px;color:var(--ink-2);line-height:1.8">
+          <li>— Недостаток компетенций</li>
+          <li>— Отсутствие научного подхода</li>
+          <li>— Бюрократия</li>
+          <li>— Нехватка времени</li>
+        </ul>
       </div>
       <div>
-        <div class="bignum-label">Одновременно разрабатывают</div>
-        <div class="bignum">32<sup>%</sup></div>
-        <div class="bignum-desc">компаний ведут до 100 сервисов параллельно</div>
+        <div class="card__title" style="color:var(--primary)">Результат</div>
+        <p>Продукты выходят с багами, не решают задачи пользователей и требуют постоянных доработок. Научный подход мог бы это предотвратить.</p>
       </div>
-    </div>
-
-    <div class="chart" style="margin-top:16px">
-      <div class="chart__title">Причины провала продуктовых инициатив</div>
-      <div class="chart__row"><div class="chart__label">Недостаток компетенций</div><div class="chart__track"><div class="chart__fill chart__fill--accent" style="width:42%"></div></div><div class="chart__val">42%</div></div>
-      <div class="chart__row"><div class="chart__label">Отсутствие научного подхода</div><div class="chart__track"><div class="chart__fill" style="width:35%"></div></div><div class="chart__val">35%</div></div>
-      <div class="chart__row"><div class="chart__label">Бюрократия</div><div class="chart__track"><div class="chart__fill chart__fill--gold" style="width:28%"></div></div><div class="chart__val">28%</div></div>
-      <div class="chart__row"><div class="chart__label">Нехватка времени</div><div class="chart__track"><div class="chart__fill" style="width:25%"></div></div><div class="chart__val">25%</div></div>
-    </div>
-
-    <div class="callout">
-      <div class="callout__title">Ключевой вывод</div>
-      <p>Ключевая проблема сегодня связана не со скоростью запуска, а с качеством продуктовых решений и уровнем компетенций команд. Без научного подхода и экспериментов качество не растёт.</p>
     </div>
   </div>
   <div class="page__footer"><span>Научный подход · ИТ и ИИ</span><span>05 · Качество</span></div>
 </section>
 
-<!-- PAGE 7 · MLOPS CRISIS -->
+<!-- PAGE 7 · MLOPS -->
 <section class="page page--dark">
-  <div class="deco-circle deco-circle--accent" style="bottom:-40mm;right:-40mm;width:120mm;height:120mm;opacity:.15"></div>
   <div class="page__mark">06 · MLOps</div>
   <div class="page__num">07 / 16</div>
-  <div class="page__inner" style="padding-top:16mm">
+  <div class="page__inner">
     <div class="kicker">Промышленная эксплуатация</div>
     <h2 class="h-sec" style="color:#fff">Кризис <em>внедрения</em></h2>
+    
     <p class="lede" style="color:rgba(255,255,255,.7)">
-      Более 80% ИИ-проектов не доходят до промышленного внедрения.
-      Основные причины — не качество моделей, а зрелость инфраструктуры
+      Более 80% ИИ-проектов не доходят до промышленного внедрения. 
+      Основные причины — не качество моделей, а зрелость инфраструктуры 
       и процессов.
     </p>
 
-    <div class="stats" style="border-top-color:#fff">
-      <div class="stat" style="border-color:rgba(255,255,255,.15)">
-        <div class="stat__num" style="color:#fff">80<sup>%</sup></div>
-        <div class="stat__label" style="color:rgba(255,255,255,.7)">ИИ-проектов не доходят до промышленного внедрения</div>
-        <div class="stat__src" style="color:rgba(255,255,255,.5)">TAdviser</div>
-      </div>
-      <div class="stat" style="border-color:rgba(255,255,255,.15)">
-        <div class="stat__num" style="color:#fff">15<sup>%</sup></div>
-        <div class="stat__label" style="color:rgba(255,255,255,.7)">российских организаций используют MLOps-пайплайны (в мире — 34%)</div>
-        <div class="stat__src" style="color:rgba(255,255,255,.5)">Исследование</div>
-      </div>
-      <div class="stat" style="border-color:rgba(255,255,255,.15)">
-        <div class="stat__num" style="color:#fff">9<sup>%</sup></div>
-        <div class="stat__label" style="color:rgba(255,255,255,.7)">организаций полностью обеспечены вычислительной инфраструктурой для ИИ</div>
-        <div class="stat__src" style="color:rgba(255,255,255,.5)">Т1</div>
-      </div>
-      <div class="stat" style="border-color:rgba(255,255,255,.15)">
-        <div class="stat__num" style="color:#fff">51<sup>%</sup></div>
-        <div class="stat__label" style="color:rgba(255,255,255,.7)">нуждаются в дополнительных вычислительных ресурсах</div>
-        <div class="stat__src" style="color:rgba(255,255,255,.5)">Т1</div>
+    <div class="donut-wrap">
+      <svg class="donut" viewBox="0 0 120 120">
+        <circle class="bg" cx="60" cy="60" r="40"></circle>
+        <circle class="fg" cx="60" cy="60" r="40"></circle>
+      </svg>
+      <div class="donut-legend">
+        <div><span class="donut-dot" style="background:var(--accent)"></span> 80% — не доходят до продакшена</div>
+        <div><span class="donut-dot" style="background:rgba(255,255,255,.2)"></span> 20% — успешные проекты</div>
       </div>
     </div>
 
-    <blockquote class="quote" style="color:#fff">
-      Ценность для компании создаёт не сама модель, а ИИ-сервис, который способен
+    <div class="g2" style="margin-top:20px">
+      <div class="card">
+        <div class="card__title" style="color:#fff">MLOps в России</div>
+        <p>Только 15% организаций используют MLOps-пайплайны (в мире — 34%).</p>
+      </div>
+      <div class="card">
+        <div class="card__title" style="color:#fff">Инфраструктура</div>
+        <p>9% организаций полностью обеспечены вычислительной инфраструктурой для ИИ. 51% нуждаются в дополнительных ресурсах.</p>
+      </div>
+    </div>
+
+    <div class="quote" style="color:#fff;margin-top:20px">
+      Ценность для компании создаёт не сама модель, а ИИ-сервис, который способен 
       надёжно, безопасно и экономически эффективно работать в промышленной эксплуатации.
       <cite>Екатерина Цаплина · Норникель</cite>
-    </blockquote>
+    </div>
   </div>
   <div class="page__footer"><span>Научный подход · ИТ и ИИ</span><span>06 · MLOps</span></div>
 </section>
 
-<!-- PAGE 8 · REPRODUCIBILITY CRISIS -->
+<!-- PAGE 8 · REPRODUCIBILITY -->
 <section class="page">
   <div class="page__mark">07 · Воспроизводимость</div>
   <div class="page__num">08 / 16</div>
-  <div class="page__inner" style="padding-top:16mm">
+  <div class="page__inner">
     <div class="kicker">Кризис воспроизводимости</div>
     <h2 class="h-sec">Наука <em>не воспроизводится</em></h2>
+    
     <p class="lede">
-      Воспроизводимость — cornerstone научного метода. Однако в ИИ-исследованиях
-      она находится под угрозой: только 23% статей предоставляют полностью
+      Воспроизводимость — cornerstone научного метода. Однако в ИИ-исследованиях 
+      она находится под угрозой: только 23% статей предоставляют полностью 
       рабочий код, а 37% не раскрывают артефакты вовсе.
     </p>
 
-    <div class="chart">
-      <div class="chart__title">Доступность кода и данных в ИИ-публикациях</div>
-      <div class="chart__row"><div class="chart__label">Полный код</div><div class="chart__track"><div class="chart__fill chart__fill--accent" style="width:23%"></div></div><div class="chart__val">23%</div></div>
-      <div class="chart__row"><div class="chart__label">Частичный код</div><div class="chart__track"><div class="chart__fill" style="width:40%"></div></div><div class="chart__val">40%</div></div>
-      <div class="chart__row"><div class="chart__label">Нет кода/данных</div><div class="chart__track"><div class="chart__fill chart__fill--gold" style="width:37%"></div></div><div class="chart__val">37%</div></div>
+    <div class="g2">
+      <div class="card">
+        <div class="card__title">Полный код</div>
+        <div class="kpi__num" style="font-size:48px;color:var(--accent);margin:10px 0">23%</div>
+        <p>Только четверть публикаций дают возможность воспроизвести результаты.</p>
+      </div>
+      <div class="card">
+        <div class="card__title">Нет кода</div>
+        <div class="kpi__num" style="font-size:48px;color:var(--primary);margin:10px 0">37%</div>
+        <p>Более трети исследований не раскрывают данные и код.</p>
+      </div>
     </div>
 
-    <div class="callout">
-      <div class="callout__title">Почему это важно</div>
+    <div class="card card--fill" style="margin-top:16px">
+      <div class="card__title">Почему это важно</div>
       <p>Без воспроизводимости научный подход в ИИ превращается в веру. Компании не могут проверить результаты, а исследователи — повторить эксперименты. Это замедляет прогресс и повышает риски.</p>
-    </div>
-
-    <div class="callout" style="margin-top:12px">
-      <div class="callout__title">Следствие для бизнеса</div>
-      <p>Если модель не воспроизводится, её нельзя сертифицировать. Это создаёт барьер для внедрения ИИ в регулируемых отраслях и снижает доверие к технологии.</p>
     </div>
   </div>
   <div class="page__footer"><span>Научный подход · ИТ и ИИ</span><span>07 · Воспроизводимость</span></div>
 </section>
 
-<!-- PAGE 9 · ENGINEERING CULTURE -->
+<!-- PAGE 9 · CULTURE -->
 <section class="page">
-  <div class="deco-circle deco-circle--gold" style="top:20%;right:-40mm;width:120mm;height:120mm"></div>
   <div class="page__mark">08 · Культура</div>
   <div class="page__num">09 / 16</div>
-  <div class="page__inner" style="padding-top:16mm">
+  <div class="page__inner">
     <div class="kicker">Инженерная культура</div>
     <h2 class="h-sec">Эксперименты <em>как норма</em></h2>
+    
     <p class="lede">
-      В лучших инженерных командах эксперименты — не исключение, а правило.
-      Однако в российских ИТ-компаниях культура экспериментирования
-      развита слабо.
+      В лучших инженерных командах эксперименты — не исключение, а правило. 
+      Однако в российских ИТ-компаниях культура экспериментирования развита слабо.
     </p>
 
-    <div class="g2">
-      <div class="callout" style="margin-top:0">
-        <div class="callout__title">Что мешает</div>
-        <p>Страх ошибки, отсутствие времени, краткосрочные KPI, бюрократия. В результате сотрудники не предлагают идеи, а руководители не готовы рисковать.</p>
+    <div class="split">
+      <div>
+        <div class="card__title" style="color:var(--accent)">Что мешает</div>
+        <p>Страх ошибки, отсутствие времени, краткосрочные KPI, бюрократия. Сотрудники не предлагают идеи, а руководители не готовы рисковать.</p>
       </div>
-      <div class="callout" style="margin-top:0">
-        <div class="callout__title">Что помогает</div>
-        <p>Выделенное время на эксперименты (10–15% рабочего времени), безопасная среда для пилотов, вознаграждение за внедрённые идеи, а не за количество предложений.</p>
+      <div>
+        <div class="card__title" style="color:var(--primary)">Что помогает</div>
+        <p>Выделенное время на эксперименты (10–15%), безопасная среда для пилотов, вознаграждение за внедрённые идеи.</p>
       </div>
     </div>
 
-    <div class="chart" style="margin-top:20px">
-      <div class="chart__title">Практики экспериментирования в ИТ-командах</div>
-      <div class="chart__row"><div class="chart__label">A/B-тестирование</div><div class="chart__track"><div class="chart__fill chart__fill--accent" style="width:65%"></div></div><div class="chart__val">65%</div></div>
-      <div class="chart__row"><div class="chart__label">Пилотные проекты</div><div class="chart__track"><div class="chart__fill" style="width:52%"></div></div><div class="chart__val">52%</div></div>
-      <div class="chart__row"><div class="chart__label">Хакатоны</div><div class="chart__track"><div class="chart__fill chart__fill--gold" style="width:38%"></div></div><div class="chart__val">38%</div></div>
-      <div class="chart__row"><div class="chart__label">Выделенное время</div><div class="chart__track"><div class="chart__fill" style="width:22%"></div></div><div class="chart__val">22%</div></div>
+    <div class="matrix">
+      <div class="matrix__label-x">Инновационность →</div>
+      <div class="matrix__label-y">Скорость →</div>
+      <div class="matrix__dot" style="left:80%;bottom:80%;">
+        <div class="matrix__tooltip">Идеал</div>
+      </div>
+      <div class="matrix__dot matrix__dot--dark" style="left:20%;bottom:20%;">
+        <div class="matrix__tooltip">Рутина</div>
+      </div>
+      <div class="matrix__dot" style="left:20%;bottom:80%;background:var(--primary);">
+        <div class="matrix__tooltip">Хакатоны</div>
+      </div>
+      <div class="matrix__dot" style="left:80%;bottom:20%;background:var(--primary);">
+        <div class="matrix__tooltip">Быстро, но не то</div>
+      </div>
     </div>
 
-    <div class="callout" style="margin-top:16px">
-      <div class="callout__title">Ключевой инсайт</div>
+    <div class="card" style="margin-top:16px">
+      <div class="card__title">Ключевой инсайт</div>
       <p>Эксперименты — это не «дополнительная нагрузка». Это способ снизить риски и повысить качество. Компании, которые это понимают, выигрывают в долгосрочной перспективе.</p>
     </div>
   </div>
   <div class="page__footer"><span>Научный подход · ИТ и ИИ</span><span>08 · Культура</span></div>
 </section>
 
-<!-- PAGE 10 · DATA QUALITY -->
+<!-- PAGE 10 · BUREAUCRACY -->
 <section class="page">
   <div class="page__mark">09 · Данные</div>
   <div class="page__num">10 / 16</div>
-  <div class="page__inner" style="padding-top:16mm">
+  <div class="page__inner">
     <div class="kicker">Качество данных</div>
     <h2 class="h-sec">Мусор на входе — <em>мусор на выходе</em></h2>
+    
     <p class="lede">
-      Научный подход в ИИ невозможен без качественных данных. Однако в российских
-      компаниях данные часто фрагментированы, неполны и не соответствуют
+      Научный подход в ИИ невозможен без качественных данных. Однако в российских 
+      компаниях данные часто фрагментированы, неполны и не соответствуют 
       требованиям воспроизводимости.
     </p>
 
-    <div class="bignum-panel">
-      <div>
-        <div class="bignum-label">Не готовы данные</div>
-        <div class="bignum">61<sup>%</sup></div>
-        <div class="bignum-desc">компаний признают, что их данные не готовы для ИИ</div>
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi__num">61<sup>%</sup></div>
+        <div class="kpi__label">компаний не готовы данные</div>
       </div>
-      <div>
-        <div class="bignum-label">Используют DataOps</div>
-        <div class="bignum">24<sup>%</sup></div>
-        <div class="bignum-desc">российских организаций (в мире — 48%)</div>
+      <div class="kpi">
+        <div class="kpi__num">24<sup>%</sup></div>
+        <div class="kpi__label">используют DataOps (мир — 48%)</div>
       </div>
     </div>
 
-    <div class="callout" style="margin-top:16px">
-      <div class="callout__title">Что такое DataOps</div>
+    <div class="card" style="margin-top:16px">
+      <div class="card__title">Что такое DataOps</div>
       <p>DataOps — это методология управления данными, которая объединяет лучшие практики DevOps с автоматизацией жизненного цикла данных. Она обеспечивает качество, прослеживаемость и воспроизводимость.</p>
     </div>
 
-    <div class="callout" style="margin-top:12px">
-      <div class="callout__title">Почему это важно для научного подхода</div>
+    <div class="card card--fill" style="margin-top:16px">
+      <div class="card__title">Почему это важно для научного подхода</div>
       <p>Без DataOps эксперименты невозможно воспроизвести, а результаты — проверить. Данные должны быть чистыми, документированными и доступными для аудита.</p>
     </div>
   </div>
@@ -677,44 +662,44 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;backg
 
 <!-- PAGE 11 · A/B TESTING -->
 <section class="page page--dark">
-  <div class="deco-circle deco-circle--accent" style="top:-30mm;left:-30mm;width:100mm;height:100mm;opacity:.2"></div>
   <div class="page__mark">10 · A/B</div>
   <div class="page__num">11 / 16</div>
-  <div class="page__inner" style="padding-top:16mm">
+  <div class="page__inner">
     <div class="kicker">A/B-тестирование</div>
     <h2 class="h-sec" style="color:#fff">Статистика <em>вместо интуиции</em></h2>
+    
     <p class="lede" style="color:rgba(255,255,255,.7)">
-      A/B-тестирование — один из ключевых инструментов научного подхода в ИТ.
-      Однако его успешность часто преувеличивается: только 10–30% тестов
+      A/B-тестирование — один из ключевых инструментов научного подхода в ИТ. 
+      Однако его успешность часто преувеличивается: только 10–30% тестов 
       дают значимый результат.
     </p>
 
-    <div class="stats" style="border-top-color:#fff">
-      <div class="stat" style="border-color:rgba(255,255,255,.15)">
-        <div class="stat__num" style="color:#fff">10–30<sup>%</sup></div>
-        <div class="stat__label" style="color:rgba(255,255,255,.7)">A/B-тестов дают статистически значимый результат</div>
-        <div class="stat__src" style="color:rgba(255,255,255,.5)">IEEE</div>
+    <div class="step-chart" style="border-bottom-color:rgba(255,255,255,.3)">
+      <div class="step">
+        <div class="step__val" style="color:#fff">10–30%</div>
+        <div class="step__bar step__bar--accent" style="height:30%;background:var(--accent)"></div>
+        <div class="step__label" style="color:rgba(255,255,255,.6)">Успешные A/B</div>
       </div>
-      <div class="stat" style="border-color:rgba(255,255,255,.15)">
-        <div class="stat__num" style="color:#fff">0.05</div>
-        <div class="stat__label" style="color:rgba(255,255,255,.7)">стандартный уровень значимости (p-value)</div>
-        <div class="stat__src" style="color:rgba(255,255,255,.5)">Практика</div>
+      <div class="step">
+        <div class="step__val" style="color:#fff">0.05</div>
+        <div class="step__bar" style="height:50%;background:var(--primary)"></div>
+        <div class="step__label" style="color:rgba(255,255,255,.6)">p-value</div>
       </div>
-      <div class="stat" style="border-color:rgba(255,255,255,.15)">
-        <div class="stat__num" style="color:#fff">16<sup>%</sup></div>
-        <div class="stat__label" style="color:rgba(255,255,255,.7)">времени разработчики тратят на код, остальное — на бюрократию и координацию</div>
-        <div class="stat__src" style="color:rgba(255,255,255,.5)">Silicon</div>
+      <div class="step">
+        <div class="step__val" style="color:#fff">16%</div>
+        <div class="step__bar" style="height:20%;background:var(--primary)"></div>
+        <div class="step__label" style="color:rgba(255,255,255,.6)">Время на код</div>
       </div>
-      <div class="stat" style="border-color:rgba(255,255,255,.15)">
-        <div class="stat__num" style="color:#fff">84<sup>%</sup></div>
-        <div class="stat__label" style="color:rgba(255,255,255,.7)">времени уходит на процессы, встречи и согласования</div>
-        <div class="stat__src" style="color:rgba(255,255,255,.5)">Silicon</div>
+      <div class="step">
+        <div class="step__val" style="color:#fff">84%</div>
+        <div class="step__bar" style="height:80%;background:rgba(255,255,255,.2)"></div>
+        <div class="step__label" style="color:rgba(255,255,255,.6)">Бюрократия</div>
       </div>
     </div>
 
-    <div class="callout" style="border-color:rgba(255,255,255,.25)">
-      <div class="callout__title" style="color:#fff">Парадокс</div>
-      <p style="color:rgba(255,255,255,.7)">Компании внедряют ИИ, чтобы ускорить разработку, но 84% времени уходит на бюрократию и координацию. Научный подход требует времени на эксперименты, но его нет.</p>
+    <div class="card" style="margin-top:20px">
+      <div class="card__title" style="color:#fff">Парадокс</div>
+      <p>Компании внедряют ИИ, чтобы ускорить разработку, но 84% времени уходит на бюрократию и координацию. Научный подход требует времени на эксперименты, но его нет.</p>
     </div>
   </div>
   <div class="page__footer"><span>Научный подход · ИТ и ИИ</span><span>10 · A/B</span></div>
@@ -724,34 +709,38 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;backg
 <section class="page">
   <div class="page__mark">11 · Кейсы</div>
   <div class="page__num">12 / 16</div>
-  <div class="page__inner" style="padding-top:16mm">
+  <div class="page__inner">
     <div class="kicker">Российские кейсы</div>
     <h2 class="h-sec">Где <em>это работает</em></h2>
+    
     <p class="lede">
-      Несмотря на общий спад, отдельные компании демонстрируют впечатляющие
-      результаты. Их опыт показывает: научный подход и эксперименты могут быть
+      Несмотря на общий спад, отдельные компании демонстрируют впечатляющие 
+      результаты. Их опыт показывает: научный подход и эксперименты могут быть 
       эффективными, если они системные и мотивированные.
     </p>
 
-    <table class="dtable">
-      <thead>
-        <tr>
-          <th>Компания</th>
-          <th>Инструмент</th>
-          <th>Результат</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td><strong>Ростелеком</strong></td><td>«Василиса»</td><td class="num">Автоматизация 40% задач разработки</td></tr>
-        <tr><td><strong>Т-Банк</strong></td><td>AI-ассистент по кибербезопасности</td><td class="num">Внедрён в промышленную эксплуатацию</td></tr>
-        <tr><td><strong>Норникель</strong></td><td>MLOps-платформа</td><td class="num">Промышленный контур ML</td></tr>
-        <tr><td><strong>Сбер</strong></td><td>GigaChat</td><td class="num">Один из лидеров рынка</td></tr>
-      </tbody>
-    </table>
+    <div class="g2">
+      <div class="card">
+        <div class="card__title">Ростелеком</div>
+        <p>«Василиса» — автоматизация 40% задач разработки. Инструмент внедрён в промышленную эксплуатацию.</p>
+      </div>
+      <div class="card">
+        <div class="card__title">Т-Банк</div>
+        <p>AI-ассистент по кибербезопасности. Внедрён в промышленную эксплуатацию.</p>
+      </div>
+      <div class="card">
+        <div class="card__title">Норникель</div>
+        <p>MLOps-платформа. Промышленный контур ML, позволяющий масштабировать модели.</p>
+      </div>
+      <div class="card">
+        <div class="card__title">Сбер</div>
+        <p>GigaChat. Один из лидеров рынка. Экосистема моделей и сервисов.</p>
+      </div>
+    </div>
 
-    <div class="callout" style="margin-top:16px">
-      <div class="callout__title">Что общего у успешных кейсов</div>
-      <p>Системный подход, выделенные ресурсы, поддержка руководства и готовность инвестировать в эксперименты. В большинстве российских ИТ-компаний эти практики пока не стали нормой.</p>
+    <div class="card card--fill" style="margin-top:16px">
+      <div class="card__title">Что общего у успешных кейсов</div>
+      <p>Системный подход, выделенные ресурсы, поддержка руководства и готовность инвестировать в эксперименты.</p>
     </div>
   </div>
   <div class="page__footer"><span>Научный подход · ИТ и ИИ</span><span>11 · Кейсы</span></div>
@@ -759,37 +748,37 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;backg
 
 <!-- PAGE 13 · WHAT TO DO -->
 <section class="page">
-  <div class="deco-circle deco-circle--blue" style="top:-30mm;left:-30mm;width:100mm;height:100mm"></div>
   <div class="page__mark">12 · Что делать</div>
   <div class="page__num">13 / 16</div>
-  <div class="page__inner" style="padding-top:16mm">
+  <div class="page__inner">
     <div class="kicker">Практические выводы</div>
     <h2 class="h-sec">Как <em>возродить</em> культуру</h2>
 
-    <div class="callout" style="margin-top:0">
-      <div class="callout__title">Для руководителей</div>
-      <ol class="list-num">
-        <li><strong>Выделите время на эксперименты.</strong> 10–15% рабочего времени на исследовательские проекты, не связанные с текущими задачами.</li>
-        <li><strong>Вознаграждайте за внедрённые идеи.</strong> Привяжите бонусы к измеримому эффекту, а не к количеству поданных предложений.</li>
-        <li><strong>Создайте «песочницу» для пилотов.</strong> Безопасная среда для тестирования идей без риска для основного продукта.</li>
-      </ol>
+    <div class="split">
+      <div>
+        <div class="card__title" style="color:var(--accent)">Для руководителей</div>
+        <ol style="padding-left:16px;font-size:12px;color:var(--ink-2);line-height:1.8">
+          <li>Выделите время на эксперименты (10–15%).</li>
+          <li>Вознаграждайте за внедрённые идеи, а не за количество.</li>
+          <li>Создайте «песочницу» для пилотов.</li>
+        </ol>
+      </div>
+      <div>
+        <div class="card__title" style="color:var(--primary)">Для сотрудников</div>
+        <ol style="padding-left:16px;font-size:12px;color:var(--ink-2);line-height:1.8">
+          <li>Фиксируйте идеи в личном «банке».</li>
+          <li>Начинайте с малого: автоматизация рутины.</li>
+          <li>Делитесь результатами на митапах.</li>
+        </ol>
+      </div>
     </div>
 
-    <div class="callout" style="margin-top:12px">
-      <div class="callout__title">Для сотрудников</div>
-      <ol class="list-num">
-        <li><strong>Фиксируйте идеи.</strong> Ведите личный «банк идей» — даже если сейчас нет времени на реализацию.</li>
-        <li><strong>Начинайте с малого.</strong> Автоматизация рутины, оптимизация процессов — это тоже рационализаторство.</li>
-        <li><strong>Делитесь результатами.</strong> Внутренние митапы и демо-дни помогают найти единомышленников и поддержку.</li>
-      </ol>
-    </div>
-
-    <div class="callout" style="margin-top:12px">
-      <div class="callout__title">Для компаний</div>
-      <ol class="list-num">
-        <li><strong>Встройте рационализаторство в культуру.</strong> Не как кампанию, а как постоянный процесс.</li>
-        <li><strong>Измеряйте эффект.</strong> В ИТ это может быть снижение времени на задачу, уменьшение количества багов, рост удовлетворённости пользователей.</li>
-        <li><strong>Будьте прозрачны.</strong> Показывайте, какие идеи были приняты и почему, чтобы поддерживать доверие.</li>
+    <div class="card" style="margin-top:16px">
+      <div class="card__title">Для компаний</div>
+      <ol style="padding-left:16px;font-size:12px;color:var(--ink-2);line-height:1.8">
+        <li>Встройте рационализаторство в культуру как постоянный процесс.</li>
+        <li>Измеряйте эффект: время на задачу, качество, удовлетворённость.</li>
+        <li>Будьте прозрачны: показывайте, какие идеи приняты и почему.</li>
       </ol>
     </div>
   </div>
@@ -798,37 +787,36 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;backg
 
 <!-- PAGE 14 · CONCLUSION -->
 <section class="page page--dark">
-  <div class="deco-circle deco-circle--accent" style="top:-40mm;right:-40mm;width:130mm;height:130mm;opacity:.2"></div>
   <div class="page__mark">13 · Итоги</div>
   <div class="page__num">14 / 16</div>
-  <div class="page__inner" style="padding-top:16mm">
+  <div class="page__inner">
     <div class="kicker">Итоги</div>
     <h2 class="h-sec" style="color:#fff">Научный подход <em>не устарел</em></h2>
 
     <div class="g2">
-      <div class="callout" style="margin-top:0;border-color:rgba(255,255,255,.25)">
-        <div class="callout__title" style="color:#fff">Что мы узнали</div>
-        <p style="color:rgba(255,255,255,.7)">Рационализаторство в СССР было массовым, но не всегда эффективным. В рыночной экономике мотивация исчезла, а в ИТ-секторе оно так и не прижилось из-за перегрузки и краткосрочных KPI.</p>
+      <div class="card">
+        <div class="card__title" style="color:#fff">Что мы узнали</div>
+        <p>Рационализаторство в СССР было массовым, но не всегда эффективным. В рыночной экономике мотивация исчезла, а в ИТ-секторе оно так и не прижилось из-за перегрузки и краткосрочных KPI.</p>
       </div>
-      <div class="callout" style="margin-top:0;border-color:rgba(255,255,255,.25)">
-        <div class="callout__title" style="color:#fff">Что делать</div>
-        <p style="color:rgba(255,255,255,.7)">Выделять время на эксперименты, вознаграждать за внедрённые идеи, создавать «песочницы» и встраивать научный подход в культуру компании.</p>
+      <div class="card">
+        <div class="card__title" style="color:#fff">Что делать</div>
+        <p>Выделять время на эксперименты, вознаграждать за внедрённые идеи, создавать «песочницы» и встраивать научный подход в культуру компании.</p>
       </div>
     </div>
 
-    <blockquote class="quote" style="color:#fff;font-size:20px;margin-top:20px">
+    <div class="quote" style="color:#fff;font-size:20px;margin-top:20px">
       Рационализаторство — это не про количество поданных предложений.
       Это про качество внедрённых решений и людей, которые их создают.
       <cite>Алексей Прохоров</cite>
-    </blockquote>
+    </div>
 
-    <div class="expert" style="margin-top:20px;border-color:rgba(255,255,255,.2)">
+    <div class="expert">
       <div class="expert__photo">
         <img src="C9FFD587-B19C-4F19-BC04-3869F3C6DBF0.jpeg" alt="Алексей Прохоров">
       </div>
       <div>
-        <div class="expert__name" style="color:#fff">Алексей Прохоров</div>
-        <div class="expert__role" style="color:rgba(255,255,255,.7)">Директор по развитию технологий ИИ. Эксперт по цифровой трансформации в госорганах и компаниях. Автор книги «Записки директора по искусственному интеллекту».</div>
+        <div class="expert__name">Алексей Прохоров</div>
+        <div class="expert__role">Директор по развитию технологий ИИ. Эксперт по цифровой трансформации в госорганах и компаниях. Автор книги «Записки директора по искусственному интеллекту».</div>
         <div class="expert__links">
           <a href="https://max.ru/alproailife" target="_blank" rel="noopener">Подписаться → MAX-канал</a>
           <a href="mailto:director.brands@yandex.ru?subject=Заказ книги">Заказать книгу</a>
@@ -843,7 +831,7 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;backg
 <section class="page">
   <div class="page__inner" style="padding-top:16mm;display:flex;flex-direction:column">
     <div class="kicker">Что дальше</div>
-    <h2 class="h-sec" style="font-size:52px;margin-top:16px">
+    <h2 class="h-sec" style="font-size:48px;margin-top:16px">
       Готовы <em>возродить</em><br>
       культуру идей?
     </h2>
@@ -854,14 +842,14 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;backg
       и практика внедрения ИИ.
     </p>
 
-    <div class="bignum-panel" style="margin-top:24px">
-      <div>
-        <div class="bignum-label">Страниц в книге</div>
-        <div class="bignum">163</div>
+    <div class="kpi-row" style="margin-top:24px">
+      <div class="kpi">
+        <div class="kpi__num">163</div>
+        <div class="kpi__label">страницы в книге</div>
       </div>
-      <div>
-        <div class="bignum-label">Глав и разделов</div>
-        <div class="bignum">13</div>
+      <div class="kpi">
+        <div class="kpi__num">13</div>
+        <div class="kpi__label">глав и разделов</div>
       </div>
     </div>
 
@@ -870,10 +858,10 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;backg
       <a href="https://max.ru/alproailife" target="_blank" rel="noopener" class="btn btn--ghost">MAX-канал @alproailife →</a>
     </div>
 
-    <div class="cta" style="margin-top:24px">
+    <div class="cta-end">
       <h3>Готовы пройти путь увереннее?</h3>
       <p>Гайд собран из реальных кейсов, ошибок и побед. В нём нет «воды» — только работающие инструменты, живые истории и полезные инсайты.</p>
-      <div class="cta__meta">
+      <div class="cta-end__meta">
         <span>16 страниц</span>
         <span>2026</span>
         <span>Научный подход · ИТ и ИИ</span>
@@ -883,78 +871,45 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;backg
   <div class="page__footer"><span>Научный подход · ИТ и ИИ</span><span>14 · Финал</span></div>
 </section>
 
-<!-- PAGE 16 · FINAL PAGE -->
-<section class="page">
+<!-- PAGE 16 · FINAL -->
+<section class="page page--dark">
   <div class="page__inner" style="padding-top:16mm;display:flex;flex-direction:column">
     <div class="kicker">Заключение</div>
-    <h2 class="h-sec" style="font-size:48px;margin-top:16px">
+    <h2 class="h-sec" style="font-size:44px;margin-top:16px">
       Научный подход — <em>это не роскошь</em>
     </h2>
-    <p class="lede" style="max-width:540px;margin-top:16px">
+    <p class="lede" style="color:rgba(255,255,255,.7);max-width:540px;margin-top:16px">
       Это необходимое условие для создания качественных и надёжных ИИ-систем.
       Без экспериментов, воспроизводимости и культуры идей технологии остаются
       хрупкими и неэффективными.
     </p>
 
-    <div class="callout" style="margin-top:24px">
-      <div class="callout__title">Три принципа</div>
-      <ol class="list-num">
-        <li><strong>Экспериментируйте.</strong> Выделяйте время и ресурсы на проверку гипотез.</li>
-        <li><strong>Воспроизводите.</strong> Документируйте данные и код, чтобы результаты можно было проверить.</li>
-        <li><strong>Вознаграждайте.</strong> Поощряйте не количество идей, а их внедрение и эффект.</li>
+    <div class="card" style="margin-top:24px;border-color:rgba(255,255,255,.2)">
+      <div class="card__title" style="color:#fff">Три принципа</div>
+      <ol style="padding-left:16px;font-size:12px;color:rgba(255,255,255,.8);line-height:1.8">
+        <li><strong style="color:#fff">Экспериментируйте.</strong> Выделяйте время и ресурсы на проверку гипотез.</li>
+        <li><strong style="color:#fff">Воспроизводите.</strong> Документируйте данные и код, чтобы результаты можно было проверить.</li>
+        <li><strong style="color:#fff">Вознаграждайте.</strong> Поощряйте не количество идей, а их внедрение и эффект.</li>
       </ol>
     </div>
 
-    <div class="quote" style="margin-top:24px">
+    <div class="quote" style="color:#fff;margin-top:24px;border-left-color:var(--accent)">
       Будущее ИИ — не в «умных алгоритмах», а в научном подходе: гипотезы,
       эксперименты, валидация и люди, которые готовы учиться и ошибаться.
       <cite>Алексей Прохоров</cite>
     </div>
-  </div>
-  <div class="page__footer"><span>Научный подход · ИТ и ИИ</span><span>15 · Заключение</span></div>
-</section>
 
-<!-- PAGE 17 · CTA FINAL -->
-<section class="page page--dark">
-  <div class="page__inner" style="padding-top:16mm;display:flex;flex-direction:column">
-    <div class="kicker">Что дальше</div>
-    <h2 class="h-sec" style="color:#fff;font-size:52px;margin-top:16px">
-      Готовы <em>действовать?</em>
-    </h2>
-    <p class="lede" style="color:rgba(255,255,255,.7);max-width:520px;margin-top:16px">
-      Если хотите глубже — в книге «Записки директора по искусственному интеллекту»
-      собраны практические инструменты, кейсы и инсайты, которых не найти
-      в учебниках. А в MAX-канале — свежие разборы регуляторных изменений
-      и практика внедрения ИИ.
-    </p>
-
-    <div class="bignum-panel" style="margin-top:24px;border-color:#fff">
-      <div style="border-right-color:#fff">
-        <div class="bignum-label" style="color:rgba(255,255,255,.5)">Страниц в книге</div>
-        <div class="bignum" style="color:#fff">163</div>
-      </div>
-      <div>
-        <div class="bignum-label" style="color:rgba(255,255,255,.5)">Глав и разделов</div>
-        <div class="bignum" style="color:#fff">13</div>
-      </div>
-    </div>
-
-    <div style="margin-top:auto;display:flex;gap:20px;flex-wrap:wrap">
-      <a href="mailto:director.brands@yandex.ru?subject=Заказ книги" class="btn" style="border-color:#fff;background:#fff;color:#111">Заказать книгу →</a>
-      <a href="https://max.ru/alproailife" target="_blank" rel="noopener" class="btn btn--ghost" style="border-color:rgba(255,255,255,.5);color:#fff">MAX-канал @alproailife →</a>
-    </div>
-
-    <div class="cta" style="margin-top:24px;background:#222">
+    <div class="cta-end" style="background:#222;margin-top:auto">
       <h3>Готовы пройти путь увереннее?</h3>
       <p>Гайд собран из реальных кейсов, ошибок и побед. В нём нет «воды» — только работающие инструменты, живые истории и полезные инсайты.</p>
-      <div class="cta__meta">
+      <div class="cta-end__meta">
         <span>16 страниц</span>
         <span>2026</span>
         <span>Научный подход · ИТ и ИИ</span>
       </div>
     </div>
   </div>
-  <div class="page__footer"><span>Научный подход · ИТ и ИИ</span><span>16 · Финал</span></div>
+  <div class="page__footer"><span>Научный подход · ИТ и ИИ</span><span>15 · Заключение</span></div>
 </section>
 
 </main>
@@ -984,7 +939,7 @@ async function downloadPDF(){
         links.push({ href: a.href, x: r.left - pageRect.left, y: r.top - pageRect.top, w: r.width, h: r.height });
       });
       const canvas = await html2canvas(pageEl, {
-        scale: 2, useCORS: true, backgroundColor: '#FCFBF7',
+        scale: 2, useCORS: true, backgroundColor: '#FFFFFF',
         width: pageEl.offsetWidth, height: pageEl.offsetHeight,
         windowWidth: pageEl.offsetWidth, windowHeight: pageEl.offsetHeight
       });
