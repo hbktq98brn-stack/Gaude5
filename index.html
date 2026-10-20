@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Рационализаторство и научный подход в ИТ и ИИ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F6F2;
+  --paper:#FFFFFF;
+  --ink:#1A1A1A;
+  --ink-2:#4A4A48;
+  --ink-3:#8A8A88;
+  --line:#E6E4DF;
+  --line-2:#F0EEEA;
+  --accent:#1E3A8A;
+  --accent-2:#B45309;
+  --accent-3:#0F5132;
+  --gold:#A67C00;
+  --shadow:0 24px 70px rgba(20,20,20,.08), 0 6px 16px rgba(20,20,20,.03);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* ============ TOOLBAR ============ */
+.toolbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(247,246,242,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--line-2)}
+.toolbar__brand{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.toolbar__brand span{color:var(--accent-2)}
+.toolbar__actions{display:flex;gap:12px}
+.btn{font-family:'Inter',sans-serif;font-weight:700;font-size:13px;padding:11px 20px;border-radius:100px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer;display:inline-flex;align-items:center;gap:9px;transition:all .25s ease}
+.btn:hover{background:var(--accent-2);border-color:var(--accent-2);transform:translateY(-1px)}
+.btn:disabled{opacity:.6;cursor:wait}
+.btn--ghost{background:transparent;color:var(--ink)}
+.btn--ghost:hover{background:var(--ink);color:var(--paper)}
+.btn svg{width:15px;height:15px;flex-shrink:0}
+
+/* ============ DOCUMENT ============ */
+.document{max-width:210mm;margin:0 auto;padding:100px 0 140px;display:flex;flex-direction:column;gap:40px}
+.page{display:block;width:210mm;height:297mm;min-width:210mm;max-width:210mm;min-height:297mm;max-height:297mm;box-sizing:border-box;background:var(--paper);position:relative;overflow:hidden;box-shadow:var(--shadow);padding:0;page-break-after:always;break-after:page;page-break-inside:avoid;break-inside:avoid}
+.page__inner{display:flex;flex-direction:column;padding:16mm 14mm 18mm;height:100%;width:100%;box-sizing:border-box;position:relative;z-index:2}
+
+/* ============ PAGE CHROME ============ */
+.page__mark{position:absolute;top:8mm;left:14mm;display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);font-weight:600;z-index:5}
+.page__mark::before{content:"";width:20px;height:1px;background:var(--accent-2)}
+.page__num{position:absolute;top:8mm;right:14mm;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--ink-3);font-weight:600;z-index:5}
+.page__footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);border-top:1px solid var(--line-2);padding-top:8px;font-weight:600;z-index:5}
+
+/* ============ DARK PAGE ============ */
+.page--dark{background:#111111;color:#fff}
+.page--dark .page__mark{color:rgba(255,255,255,.55)}
+.page--dark .page__mark::before{background:var(--accent-2)}
+.page--dark .page__num{color:rgba(255,255,255,.55)}
+.page--dark .page__footer{color:rgba(255,255,255,.5);border-top-color:rgba(255,255,255,.15)}
+
+/* ============ COVER ============ */
+.cover{background:var(--paper);position:relative;overflow:hidden}
+.cover__lines{position:absolute;inset:0;pointer-events:none;z-index:0}
+.cover__inner{position:relative;z-index:2;display:flex;flex-direction:column;height:100%;padding:16mm 14mm 18mm;box-sizing:border-box}
+.cover__top{display:flex;justify-content:space-between;align-items:flex-start;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.cover__top .stamp{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border:1.5px solid var(--accent-2);color:var(--accent-2);font-family:'Playfair Display',serif;font-size:10px;letter-spacing:.1em;font-weight:700}
+.cover__main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:8mm 0}
+.cover__eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-2);font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:14px}
+.cover__eyebrow::before{content:"";width:30px;height:1px;background:var(--accent-2)}
+.cover__title{font-family:'Playfair Display',serif;font-weight:800;font-size:68px;line-height:.95;letter-spacing:-.03em;color:var(--ink);margin-bottom:24px}
+.cover__title em{font-style:normal;color:var(--accent-2);display:block}
+.cover__sub{font-size:16px;color:var(--ink-2);max-width:480px;line-height:1.65;font-weight:400}
+.cover__meta{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:auto;padding-top:32px;border-top:1px solid var(--line)}
+.cover__meta > div{display:flex;flex-direction:column;gap:2px}
+.cover__meta dt{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-bottom:6px}
+.cover__meta dd{font-size:14px;color:var(--ink);line-height:1.4;font-weight:500}
+.cover__meta dd.muted{font-size:13px;color:var(--ink-3)}
+
+/* ============ SECTION HEADINGS ============ */
+.kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent-2);font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:18px;height:1px;background:var(--accent-2)}
+.page--dark .kicker{color:var(--accent-2)}
+.h-sec{font-family:'Playfair Display',serif;font-weight:700;font-size:34px;line-height:1.08;letter-spacing:-.02em;margin-bottom:10px;color:var(--ink)}
+.h-sec em{font-style:normal;color:var(--accent-2)}
+.page--dark .h-sec{color:#fff}
+.page--dark .h-sec em{color:var(--accent-2)}
+.lede{font-size:14px;color:var(--ink-2);max-width:560px;line-height:1.65;margin-bottom:22px}
+.page--dark .lede{color:rgba(255,255,255,.7)}
+
+/* ============ STATS ============ */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:2px solid var(--ink);margin-bottom:20px}
+.page--dark .stats{border-top-color:#fff}
+.stat{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:20px 18px 22px}
+.stat:last-child{border-right:none}
+.page--dark .stat{border-color:rgba(255,255,255,.15)}
+.stat__num{font-family:'Playfair Display',serif;font-weight:800;font-size:44px;line-height:1;letter-spacing:-.03em;color:var(--ink)}
+.page--dark .stat__num{color:#fff}
+.stat__num sup{font-size:18px;color:var(--accent-2);vertical-align:top;margin-left:3px;font-weight:700}
+.stat__label{font-size:12px;color:var(--ink-2);margin-top:10px;line-height:1.5}
+.page--dark .stat__label{color:rgba(255,255,255,.7)}
+.stat__src{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-top:10px;font-weight:600}
+
+/* ============ QUOTE ============ */
+.quote{border-left:2px solid var(--accent-2);padding:6px 0 6px 22px;margin:20px 0;font-family:'Playfair Display',serif;font-size:18px;line-height:1.45;color:var(--ink);font-style:italic;font-weight:400;max-width:580px}
+.page--dark .quote{color:#fff}
+.quote cite{display:block;font-style:normal;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-2);margin-top:14px;font-weight:700}
+
+/* ============ CALLOUT ============ */
+.callout{border:1px solid var(--ink);padding:16px 20px;margin:14px 0;position:relative;background:linear-gradient(180deg,rgba(30,58,138,.03),transparent)}
+.page--dark .callout{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.05)}
+.callout__title{font-family:'Playfair Display',serif;font-weight:700;font-size:14px;margin-bottom:8px;letter-spacing:-.01em;line-height:1.3;color:var(--ink)}
+.page--dark .callout__title{color:#fff}
+.callout p{font-size:12.5px;color:var(--ink-2);line-height:1.6}
+.page--dark .callout p{color:rgba(255,255,255,.7)}
+
+/* ============ GRID ============ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0}
+.g2 > *{min-width:0}
+
+/* ============ CHIP ============ */
+.chip{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--line);color:var(--ink-2);margin:0 6px 6px 0;font-weight:500}
+.page--dark .chip{border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.7)}
+.chip--accent{border-color:var(--accent-2);color:var(--accent-2)}
+
+/* ============ BIG NUMBER PANEL ============ */
+.bignum-panel{display:grid;grid-template-columns:1fr 1fr;gap:0;border:2px solid var(--ink);margin:16px 0}
+.page--dark .bignum-panel{border-color:#fff}
+.bignum-panel > div{padding:22px 20px;border-right:2px solid var(--ink)}
+.page--dark .bignum-panel > div{border-right-color:#fff}
+.bignum-panel > div:last-child{border-right:none}
+.bignum{font-family:'Playfair Display',serif;font-weight:800;font-size:72px;line-height:.85;letter-spacing:-.04em;color:var(--ink);margin-bottom:10px}
+.page--dark .bignum{color:#fff}
+.bignum sup{font-size:28px;color:var(--accent-2);vertical-align:top;font-weight:700}
+.bignum-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-bottom:8px}
+.page--dark .bignum-label{color:rgba(255,255,255,.5)}
+.bignum-desc{font-size:12px;color:var(--ink-2);line-height:1.5}
+.page--dark .bignum-desc{color:rgba(255,255,255,.7)}
+
+/* ============ BAR CHART ============ */
+.chart{margin:14px 0}
+.chart__title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-bottom:10px}
+.page--dark .chart__title{color:rgba(255,255,255,.5)}
+.chart__row{display:grid;grid-template-columns:110px 1fr 48px;gap:12px;align-items:center;margin-bottom:8px;font-size:12px}
+.chart__label{color:var(--ink-2);font-weight:600}
+.page--dark .chart__label{color:rgba(255,255,255,.8)}
+.chart__track{height:16px;background:var(--line-2);position:relative;overflow:hidden}
+.page--dark .chart__track{background:rgba(255,255,255,.12)}
+.chart__fill{position:absolute;top:0;left:0;bottom:0;background:var(--ink)}
+.page--dark .chart__fill{background:var(--accent-2)}
+.chart__fill--accent{background:var(--accent)}
+.chart__fill--gold{background:var(--gold)}
+.chart__val{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;text-align:right;color:var(--ink);letter-spacing:-.02em}
+.page--dark .chart__val{color:#fff}
+
+/* ============ TABLE ============ */
+.dtable{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0}
+.dtable th,.dtable td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45}
+.dtable th{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);font-weight:600;border-bottom:1.5px solid var(--ink);padding-bottom:10px}
+.page--dark .dtable th{border-bottom-color:#fff;color:rgba(255,255,255,.6)}
+.page--dark .dtable td{border-bottom-color:rgba(255,255,255,.15);color:rgba(255,255,255,.8)}
+.dtable td strong{font-weight:700;color:var(--ink)}
+.page--dark .dtable td strong{color:#fff}
+.dtable tr:last-child td{border-bottom:none}
+.dtable .num{font-family:'Playfair Display',serif;font-size:16px;letter-spacing:-.02em;color:var(--accent-2);font-weight:700}
+
+/* ============ LIST ============ */
+.list-num{counter-reset:ln;margin:12px 0}
+.list-num li{counter-increment:ln;list-style:none;position:relative;padding:12px 0 12px 44px;border-bottom:1px solid var(--line-2);font-size:13px;line-height:1.55;color:var(--ink-2)}
+.page--dark .list-num li{border-bottom-color:rgba(255,255,255,.15);color:rgba(255,255,255,.7)}
+.list-num li:last-child{border-bottom:none}
+.list-num li::before{content:counter(ln,decimal-leading-zero);position:absolute;left:0;top:13px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--accent-2);font-weight:600}
+.list-num li strong{color:var(--ink);font-weight:700}
+.page--dark .list-num li strong{color:#fff}
+
+/* ============ TIMELINE ============ */
+.tl-row{display:grid;grid-template-columns:110px 1fr;gap:20px;padding:16px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.tl-row:first-child{border-top:2px solid var(--ink)}
+.tl-row:last-child{border-bottom:2px solid var(--ink)}
+.page--dark .tl-row{border-color:rgba(255,255,255,.15)}
+.tl-date{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--accent-2);line-height:1.1}
+.tl-date small{display:block;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;font-weight:600;color:var(--ink-3);margin-top:4px}
+.page--dark .tl-date small{color:rgba(255,255,255,.5)}
+.tl-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:6px;color:var(--ink)}
+.page--dark .tl-title{color:#fff}
+.tl-text{font-size:12px;color:var(--ink-2);line-height:1.5}
+.page--dark .tl-text{color:rgba(255,255,255,.7)}
+
+/* ============ EXPERT ============ */
+.expert{display:grid;grid-template-columns:110px 1fr;gap:24px;align-items:center;padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:20px 0}
+.page--dark .expert{border-color:rgba(255,255,255,.2)}
+.expert__photo{width:110px;height:110px;border-radius:50%;position:relative;overflow:hidden;background:linear-gradient(135deg,#1a1a1a 0%,#2c2c2a 100%);border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+.page--dark .expert__photo{border-color:rgba(255,255,255,.2)}
+.expert__photo::before{content:"";position:absolute;inset:8px;border:1px dashed rgba(255,255,255,.3);border-radius:50%;z-index:2;pointer-events:none}
+.expert__photo img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:1}
+.expert__name{font-family:'Playfair Display',serif;font-weight:700;font-size:24px;letter-spacing:-.02em;margin-bottom:6px;color:var(--ink)}
+.page--dark .expert__name{color:#fff}
+.expert__role{font-size:12.5px;color:var(--ink-2);margin-bottom:14px;line-height:1.55}
+.page--dark .expert__role{color:rgba(255,255,255,.7)}
+.expert__links{display:flex;gap:16px;flex-wrap:wrap}
+.expert__links a{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-2);text-decoration:none;border-bottom:1px solid var(--accent-2);padding-bottom:3px;font-weight:600}
+.page--dark .expert__links a{color:var(--accent-2)}
+
+/* ============ CTA ============ */
+.cta{background:var(--ink);color:#fff;padding:32px 30px;margin-top:auto;position:relative;overflow:hidden}
+.cta::before{content:"";position:absolute;top:-50px;right:-50px;width:180px;height:180px;border:1px solid rgba(255,255,255,.15);border-radius:50%}
+.cta::after{content:"";position:absolute;bottom:-70px;left:-30px;width:140px;height:140px;border:1px solid rgba(255,255,255,.1);border-radius:50%}
+.cta h3{font-family:'Playfair Display',serif;font-weight:700;font-size:24px;line-height:1.2;margin-bottom:12px;position:relative;z-index:2;letter-spacing:-.015em}
+.cta p{font-size:13px;color:rgba(255,255,255,.75);line-height:1.6;position:relative;z-index:2;max-width:460px}
+.cta__meta{display:flex;gap:24px;margin-top:20px;position:relative;z-index:2;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:600}
+
+/* ============ DECOR ============ */
+.deco-circle{position:absolute;border-radius:50%;pointer-events:none;z-index:0}
+.deco-circle--accent{border:1px solid var(--accent-2)}
+.deco-circle--blue{border:1px solid rgba(30,58,138,.15)}
+.deco-circle--gold{border:1px solid rgba(166,124,0,.2)}
+
+/* ============ PRINT ============ */
+@page{size:210mm 297mm;margin:0}
+@media print{
+  html, body{margin:0 !important;padding:0 !important;width:210mm;background:var(--paper)}
+  .toolbar{display:none !important}
+  .document{padding:0 !important;margin:0 !important;width:210mm !important}
+  .page + .page{margin-top:0 !important}
+  .page{box-shadow:none !important;margin:0 !important;page-break-after:always;break-after:page;page-break-inside:avoid;break-inside:avoid}
+  .page:last-child{page-break-after:auto;break-after:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar__brand">Рационализаторство · <span>Научный подход</span></div>
+  <div class="toolbar__actions">
+    <button class="btn btn--ghost" onclick="window.print()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/></svg>
+      Печать
+    </button>
+    <button class="btn" id="downloadBtn" onclick="downloadPDF()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      <span id="downloadText">Скачать PDF</span>
+    </button>
+  </div>
+</div>
+
+<main class="document" id="document">
+
+<!-- PAGE 1 · COVER -->
+<section class="page cover">
+  <div class="cover__lines">
+    <svg viewBox="0 0 210 297" preserveAspectRatio="none">
+      <circle cx="180" cy="60" r="50" fill="none" stroke="#B45309" stroke-width="0.5" opacity="0.3"/>
+      <circle cx="180" cy="60" r="35" fill="none" stroke="#1E3A8A" stroke-width="0.5" opacity="0.2"/>
+      <circle cx="180" cy="60" r="20" fill="none" stroke="#A67C00" stroke-width="0.5" opacity="0.3"/>
+      <line x1="0" y1="230" x2="210" y2="230" stroke="#E6E4DF" stroke-width="0.5"/>
+      <line x1="0" y1="238" x2="210" y2="238" stroke="#E6E4DF" stroke-width="0.5"/>
+    </svg>
+  </div>
+  <div class="cover__inner">
+    <div class="cover__top">
+      <span class="stamp">RESEARCH · 2026</span>
+      <span>Файл · RT-01</span>
+    </div>
+    <div class="cover__main">
+      <div class="cover__eyebrow">Научный подход в ИТ и ИИ</div>
+      <h1 class="cover__title">
+        Рационализаторство:<br>
+        <em>от советского прорыва</em><br>
+        к цифровой реальности
+      </h1>
+      <p class="cover__sub">
+        Почему массовое изобретательство, которое двигало советскую промышленность,
+        оказалось невостребованным в эпоху рыночной экономики и что это значит
+        для современных ИТ-компаний и разработчиков ИИ.
+      </p>
+    </div>
+    <dl class="cover__meta">
+      <div>
+        <dt>Автор</dt>
+        <dd>Алексей Прохоров</dd>
+        <dd class="muted">CAIO · автор книги</dd>
+      </div>
+      <div>
+        <dt>Основа</dt>
+        <dd>Открытые данные</dd>
+        <dd class="muted">исследования · статистика · кейсы</dd>
+      </div>
+      <div>
+        <dt>Формат</dt>
+        <dd>16 страниц</dd>
+        <dd class="muted">данные · графики · аналитика</dd>
+      </div>
+      <div>
+        <dt>Период</dt>
+        <dd>1971–2026</dd>
+        <dd class="muted">СССР · РФ · ИТ-сектор</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<!-- PAGE 2 · SCALE OF SOVIET RATIONALIZATION -->
+<section class="page">
+  <div class="deco-circle deco-circle--accent" style="top:-30mm;right:-30mm;width:100mm;height:100mm"></div>
+  <div class="page__mark">01 · Масштаб</div>
+  <div class="page__num">02 / 16</div>
+  <div class="page__inner" style="padding-top:16mm">
+    <div class="kicker">Советский опыт</div>
+    <h2 class="h-sec">Массовое <em>рационализаторство</em></h2>
+    <p class="lede">
+      В СССР изобретательство и рационализация были не просто движением — это была
+      плановая система, охватывавшая миллионы людей. Ежегодно в ней участвовали
+      около 2% трудящихся, занятых в народном хозяйстве.
+    </p>
+
+    <div class="bignum-panel">
+      <div>
+        <div class="bignum-label">Подано предложений (1989)</div>
+        <div class="bignum">15.2<sup>млн</sup></div>
+        <div class="bignum-desc">рационализаторских предложений поступило в народное хозяйство РСФСР</div>
+      </div>
+      <div>
+        <div class="bignum-label">Экономический эффект</div>
+        <div class="bignum">12.3<sup>млрд ₽</sup></div>
+        <div class="bignum-desc">годовой эффект от использования рационализаторских предложений</div>
+      </div>
+    </div>
+
+    <div class="chart">
+      <div class="chart__title">Динамика поданных рационализаторских предложений (млн шт.)</div>
+      <div class="chart__row"><div class="chart__label">1971–1975</div><div class="chart__track"><div class="chart__fill" style="width:92%"></div></div><div class="chart__val">22.8</div></div>
+      <div class="chart__row"><div class="chart__label">1976–1980</div><div class="chart__track"><div class="chart__fill" style="width:100%"></div></div><div class="chart__val">24.8</div></div>
+      <div class="chart__row"><div class="chart__label">1981–1985</div><div class="chart__track"><div class="chart__fill" style="width:96%"></div></div><div class="chart__val">23.9</div></div>
+      <div class="chart__row"><div class="chart__label">1986–1988</div><div class="chart__track"><div class="chart__fill" style="width:66%"></div></div><div class="chart__val">16.4</div></div>
+    </div>
+
+    <div class="callout">
+      <div class="callout__title">Ключевой инсайт</div>
+      <p>Пик массового рационализаторства пришёлся на 1970-е годы — почти 25 миллионов предложений в год. Однако лишь 22% изобретений находили применение в народном хозяйстве. Количество не всегда переходило в качество.</p>
+    </div>
+  </div>
+  <div class="page__footer"><span>Рационализаторство · Научный подход</span><span>01 · Масштаб</span></div>
+</section>
+
+<!-- PAGE 3 · ECONOMIC EFFECT -->
+<section class="page">
+  <div class="page__mark">02 · Эффективность</div>
+  <div class="page__num">03 / 16</div>
+  <div class="page__inner" style="padding-top:16mm">
+    <div class="kicker">Экономический эффект</div>
+    <h2 class="h-sec">Миллиарды <em>из идей</em></h2>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat__num">19.6<sup>млрд</sup></div>
+        <div class="stat__label">экономический эффект от внедрения изобретений и рацпредложений (1971–1975)</div>
+        <div class="stat__src">Народное хозяйство СССР</div>
+      </div>
+      <div class="stat">
+        <div class="stat__num">36.1<sup>млрд</sup></div>
+        <div class="stat__label">экономический эффект в 1981–1985 годах</div>
+        <div class="stat__src">Статистика СССР</div>
+      </div>
+      <div class="stat">
+        <div class="stat__num">20<sup>%</sup></div>
+        <div class="stat__label">от эффекта направлялось авторам в виде вознаграждения</div>
+        <div class="stat__src">Практика предприятий</div>
+      </div>
+      <div class="stat">
+        <div class="stat__num">6.9<sup>млрд</sup></div>
+        <div class="stat__label">эффект от рационализации в 1981 году — больше, чем от новой техники</div>
+        <div class="stat__src">Сравнение показателей</div>
+      </div>
+    </div>
+
+    <blockquote class="quote">
+      Затраты на внедрение мероприятий по новой технике были более чем в 20 раз выше
+      по сравнению с затратами на изобретательство и рационализацию.
+      <cite>Из статистики народного хозяйства СССР</cite>
+    </blockquote>
+
+    <div class="callout">
+      <div class="callout__title">Парадокс эффективности</div>
+      <p>Рационализаторство давало огромный экономический эффект при минимальных затратах. Однако система оценивала успех по количеству поданных предложений, а не по их реальному внедрению.</p>
+    </div>
+  </div>
+  <div class="page__footer"><span>Рационализаторство · Научный подход</span><span>02 · Эффективность</span></div>
+</section>
+
+<!-- PAGE 4 · DECLINE AFTER USSR -->
+<section class="page">
+  <div class="deco-circle deco-circle--blue" style="bottom:-40mm;left:-40mm;width:120mm;height:120mm"></div>
+  <div class="page__mark">03 · Перелом</div>
+  <div class="page__num">04 / 16</div>
+  <div class="page__inner" style="padding-top:16mm">
+    <div class="kicker">После СССР</div>
+    <h2 class="h-sec">Почему система <em>рухнула</em></h2>
+    <p class="lede">
+      С переходом на рыночную экономику в 1990-е годы система мотивации
+      рационализаторства исчезла. Предприятия перестали вкладываться в
+      непрерывные улучшения, а сотрудники — предлагать идеи.
+    </p>
+
+    <div class="g2">
+      <div class="callout" style="margin-top:0">
+        <div class="callout__title">Исчезновение мотивации</div>
+        <p>На большинстве машиностроительных предприятий пропала система мотивации сотрудников к разработке рационализаторских предложений. Непрерывное улучшение потеряло смысл.</p>
+      </div>
+      <div class="callout" style="margin-top:0">
+        <div class="callout__title">Утрата нормативной базы</div>
+        <p>Законодательная и нормативная база, работавшая до конца 1980-х, была фактически утрачена. Рационализаторская деятельность стала прерогативой каждого отдельного предприятия.</p>
+      </div>
+    </div>
+
+    <div class="chart" style="margin-top:20px">
+      <div class="chart__title">Сравнение: новые изобретения vs рацпредложения (тыс. шт.)</div>
+      <div class="chart__row"><div class="chart__label">Изобретения (1986–1988)</div><div class="chart__track"><div class="chart__fill chart__fill--accent" style="width:18%"></div></div><div class="chart__val">68</div></div>
+      <div class="chart__row"><div class="chart__label">Рацпредложения (1986–1988)</div><div class="chart__track"><div class="chart__fill" style="width:100%"></div></div><div class="chart__val">11 230</div></div>
+      <div class="chart__row"><div class="chart__label">Изобретения (1971–1975)</div><div class="chart__track"><div class="chart__fill chart__fill--accent" style="width:15%"></div></div><div class="chart__val">58</div></div>
+      <div class="chart__row"><div class="chart__label">Рацпредложения (1971–1975)</div><div class="chart__track"><div class="chart__fill" style="width:90%"></div></div><div class="chart__val">18 540</div></div>
+    </div>
+
+    <div class="callout" style="margin-top:16px">
+      <div class="callout__title">Формальный подход</div>
+      <p>На многих предприятиях мероприятия по рационализаторству сохранились, но стали формальными. Предложения подавались «ради галочки», повторялись из года в год, и никто не прислушивался к их сути.</p>
+    </div>
+  </div>
+  <div class="page__footer"><span>Рационализаторство · Научный подход</span><span>03 · Перелом</span></div>
+</section>
+
+<!-- PAGE 5 · MODERN RUSSIA STATS -->
+<section class="page">
+  <div class="page__mark">04 · Современность</div>
+  <div class="page__num">05 / 16</div>
+  <div class="page__inner" style="padding-top:16mm">
+    <div class="kicker">Россия сегодня</div>
+    <h2 class="h-sec">Рационализаторство <em>возвращается?</em></h2>
+    <p class="lede">
+      В последние годы крупные промышленные компании вновь начали поощрять
+      рационализаторство. Однако масштаб несопоставим с советским периодом,
+      а ИТ-сектор остаётся в стороне от этого движения.
+    </p>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat__num">48 327</div>
+        <div class="stat__label">заявок на изобретения, полезные модели и промышленные образцы в 2025 году</div>
+        <div class="stat__src">Роспатент</div>
+      </div>
+      <div class="stat">
+        <div class="stat__num">1.6<sup>млрд ₽</sup></div>
+        <div class="stat__label">экономический эффект от внедрения изобретений участников конкурса ВОИР в 2025</div>
+        <div class="stat__src">ВОИР</div>
+      </div>
+      <div class="stat">
+        <div class="stat__num">15<sup>%</sup></div>
+        <div class="stat__label">работников ММК вовлечены в рационализаторскую деятельность</div>
+        <div class="stat__src">ММК · 2025</div>
+      </div>
+      <div class="stat">
+        <div class="stat__num">287<sup>млн ₽</sup></div>
+        <div class="stat__label">экономический эффект от рацпредложений на ММК в 2025 году</div>
+        <div class="stat__src">ММК</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout__title">Ключевая проблема</div>
+      <p>В ИТ-секторе и сфере ИИ рационализаторство не прижилось. Причина — высокая загрузка, отсутствие времени на «вызревание идей» и краткосрочные KPI, ориентированные на скорость, а не на качество.</p>
+    </div>
+  </div>
+  <div class="page__footer"><span>Рационализаторство · Научный подход</span><span>04 · Современность</span></div>
+</section>
+
+<!-- PAGE 6 · IT BURNOUT & OVERWORK -->
+<section class="page page--dark">
+  <div class="deco-circle deco-circle--accent" style="top:-30mm;left:-30mm;width:100mm;height:100mm;opacity:.2"></div>
+  <div class="page__mark">05 · ИТ-сектор</div>
+  <div class="page__num">06 / 16</div>
+  <div class="page__inner" style="padding-top:16mm">
+    <div class="kicker">Проблемы ИТ</div>
+    <h2 class="h-sec" style="color:#fff">Выгорание <em>вместо творчества</em></h2>
+
+    <div class="stats" style="border-top-color:#fff">
+      <div class="stat" style="border-color:rgba(255,255,255,.15)">
+        <div class="stat__num" style="color:#fff">75<sup>%</sup></div>
+        <div class="stat__label" style="color:rgba(255,255,255,.7)">ИТ-специалистов имеют сформированный синдром выгорания или его признаки</div>
+        <div class="stat__src" style="color:rgba(255,255,255,.5)">Исследование 2025</div>
+      </div>
+      <div class="stat" style="border-color:rgba(255,255,255,.15)">
+        <div class="stat__num" style="color:#fff">48–52<sup>ч</sup></div>
+        <div class="stat__label" style="color:rgba(255,255,255,.7)">средняя продолжительность рабочей недели в российских ИТ-компаниях</div>
+        <div class="stat__src" style="color:rgba(255,255,255,.5)">Исследование 2025</div>
+      </div>
+      <div class="stat" style="border-color:rgba(255,255,255,.15)">
+        <div class="stat__num" style="color:#fff">27<sup>%</sup></div>
+        <div class="stat__label" style="color:rgba(255,255,255,.7)">имеют сформированное выгорание, 48% — отдельные признаки</div>
+        <div class="stat__src" style="color:rgba(255,255,255,.5)">Исследование 2025</div>
+      </div>
+      <div class="stat" style="border-color:rgba(255,255,255,.15)">
+        <div class="stat__num" style="color:#fff">58<sup>%</sup></div>
+        <div class="stat__label" style="color:rgba(255,255,255,.7)">компаний перешли на гибридный формат, но баланс не улучшился</div>
+        <div class="stat__src" style="color:rgba(255,255,255,.5)">Исследование 2025</div>
+      </div>
+    </div>
+
+    <blockquote class="quote" style="color:#fff">
+      Когда сотрудники перегружены, рутинная работа занимает всё их рабочее время —
+      трудно творить, замечать новое, обсуждать новые идеи.
+      <cite>Экономический вестник ЮФУ</cite>
+    </blockquote>
+
+    <div class="callout" style="border-color:rgba(255,255,255,.25)">
+      <div class="callout__title" style="color:#fff">Парадокс Agile</div>
+      <p style="color:rgba(255,255,255,.7)">Гибкие методологии, призванные ускорить разработку, привели к интенсификации труда и размыванию границ рабочего времени. На творчество и рационализаторство не остаётся ресурсов.</p>
+    </div>
+  </div>
+  <div class="page__footer"><span>Рационализаторство · Научный подход</span><span>05 · ИТ-сектор</span></div>
+</section>
+
+<!-- PAGE 7 · WHY NO RATIONALIZATION IN IT -->
+<section class="page">
+  <div class="deco-circle deco-circle--gold" style="top:20%;right:-40mm;width:120mm;height:120mm"></div>
+  <div class="page__mark">06 · Причины</div>
+  <div class="page__num">07 / 16</div>
+  <div class="page__inner" style="padding-top:16mm">
+    <div class="kicker">Почему не прижилось</div>
+    <h2 class="h-sec">Барьеры <em>для ИТ</em></h2>
+
+    <div class="g2">
+      <div class="callout" style="margin-top:0">
+        <div class="callout__title">01 · Культурное сопротивление</div>
+        <p>Многие руководители подразделений уже не понимают, как рационализаторство отражается на эффективности бизнес-процессов. Работники не привыкли к культуре непрерывных улучшений.</p>
+      </div>
+      <div class="callout" style="margin-top:0">
+        <div class="callout__title">02 · Формальный подход</div>
+        <p>Там, где рационализаторство сохранилось, оно часто носит принудительный характер. Это вызывает волну банальных предложений «ради галочки», которые повторяются из года в год.</p>
+      </div>
+      <div class="callout" style="margin-top:0">
+        <div class="callout__title">03 · Краткосрочные KPI</div>
+        <p>ИТ-компании ориентированы на скорость выпуска продукта. Время на обдумывание идей, эксперименты и «вызревание» решений не заложено в бизнес-процессы.</p>
+      </div>
+      <div class="callout" style="margin-top:0">
+        <div class="callout__title">04 · Отсутствие мотивации</div>
+        <p>В отличие от промышленности, где эффект от рацпредложения можно измерить в рублях, в ИТ сложно оценить вклад отдельной идеи в общий результат продукта.</p>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:20px">
+      <div class="callout__title">Следствие</div>
+      <p>Рационализаторство в ИТ и ИИ существует в форме code review, внутренних митапов и хакатонов, но это — точечные практики, а не массовое движение, как в советской промышленности.</p>
+    </div>
+  </div>
+  <div class="page__footer"><span>Рационализаторство · Научный подход</span><span>06 · Причины</span></div>
+</section>
+
+<!-- PAGE 8 · EXAMPLES OF MODERN RATIONALIZATION -->
+<section class="page">
+  <div class="page__mark">07 · Кейсы</div>
+  <div class="page__num">08 / 16</div>
+  <div class="page__inner" style="padding-top:16mm">
+    <div class="kicker">Современные примеры</div>
+    <h2 class="h-sec">Где <em>это работает</em></h2>
+    <p class="lede">
+      Несмотря на общий спад, отдельные компании демонстрируют впечатляющие
+      результаты. Их опыт показывает: рационализаторство может быть эффективным,
+      если оно системное и мотивированное.
+    </p>
+
+    <table class="dtable">
+      <thead>
+        <tr>
+          <th>Компания</th>
+          <th>Показатель</th>
+          <th>Значение</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>ММК</strong></td><td>Подано идей в 2025</td><td class="num">8 071</td></tr>
+        <tr><td><strong>ММК</strong></td><td>Внедрено предложений</td><td class="num">4 000+</td></tr>
+        <tr><td><strong>ММК</strong></td><td>Экономический эффект</td><td class="num">287 млн ₽</td></tr>
+        <tr><td><strong>ПМХ и Промсорт</strong></td><td>Реализовано рацпредложений</td><td class="num">673</td></tr>
+        <tr><td><strong>ПМХ и Промсорт</strong></td><td>Экономический эффект</td><td class="num">617 млн ₽</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <div class="callout__title">Что общего у успешных кейсов</div>
+      <p>Системный подход, регулярные конкурсы, прозрачная система вознаграждения (до 20% от экономического эффекта) и вовлечение руководства. В ИТ-секторе эти практики пока не стали нормой.</p>
+    </div>
+  </div>
+  <div class="page__footer"><span>Рационализаторство · Научный подход</span><span>07 · Кейсы</span></div>
+</section>
+
+<!-- PAGE 9 · AI & INNOVATION -->
+<section class="page page--dark">
+  <div class="deco-circle deco-circle--accent" style="bottom:-30mm;right:-30mm;width:120mm;height:120mm;opacity:.15"></div>
+  <div class="page__mark">08 · ИИ</div>
+  <div class="page__num">09 / 16</div>
+  <div class="page__inner" style="padding-top:16mm">
+    <div class="kicker">Искусственный интеллект</div>
+    <h2 class="h-sec" style="color:#fff">Научный подход <em>в ИИ</em></h2>
+    <p class="lede" style="color:rgba(255,255,255,.7)">
+      Разработка ИИ требует научного подхода: гипотезы, эксперименты, валидация.
+      Однако в российских компаниях этот подход часто подменяется быстрыми пилотами.
+    </p>
+
+    <div class="g2">
+      <div class="callout" style="margin-top:0;border-color:rgba(255,255,255,.25)">
+        <div class="callout__title" style="color:#fff">Гибридные команды</div>
+        <p style="color:rgba(255,255,255,.7)">Исследование российских ИТ-организаций показывает: разделение труда в ИИ-командах имеет структуру «матрёшки». Новые типы экспертизы возникают на стыке дисциплин.</p>
+      </div>
+      <div class="callout" style="margin-top:0;border-color:rgba(255,255,255,.25)">
+        <div class="callout__title" style="color:#fff">Невидимый труд</div>
+        <p style="color:rgba(255,255,255,.7)">Появляются «невидимые» виды труда — разметка, валидация, дообучение моделей. Этот труд не всегда учитывается в KPI, хотя без него невозможен научный подход.</p>
+      </div>
+    </div>
+
+    <blockquote class="quote" style="color:#fff">
+      Кризис социального управления трудовыми коллективами разработчиков
+      цифровой продукции обнажил неспособность директивного метода
+      адекватно управлять творческими процессами.
+      <cite>Социология и право · 2026</cite>
+    </blockquote>
+
+    <div class="callout" style="border-color:rgba(255,255,255,.25)">
+      <div class="callout__title" style="color:#fff">Вывод</div>
+      <p style="color:rgba(255,255,255,.7)">Научный подход в ИИ требует времени и свободы для экспериментов. Без этого компании получают конвейер пилотов, а не прорывные решения.</p>
+    </div>
+  </div>
+  <div class="page__footer"><span>Рационализаторство · Научный подход</span><span>08 · ИИ</span></div>
+</section>
+
+<!-- PAGE 10 · CONTEMPORARY PARADOX -->
+<section class="page">
+  <div class="page__mark">09 · Парадокс</div>
+  <div class="page__num">10 / 16</div>
+  <div class="page__inner" style="padding-top:16mm">
+    <div class="kicker">Современный парадокс</div>
+    <h2 class="h-sec">Рационализаторство <em>без рационализаторов</em></h2>
+
+    <div class="bignum-panel">
+      <div>
+        <div class="bignum-label">Патентная активность (2025)</div>
+        <div class="bignum">48.3<sup>тыс</sup></div>
+        <div class="bignum-desc">заявок на изобретения и полезные модели — рост к предыдущему году</div>
+      </div>
+      <div>
+        <div class="bignum-label">Внедрено в промышленность</div>
+        <div class="bignum">4<sup>тыс</sup></div>
+        <div class="bignum-desc">рационализаторских предложений на одном предприятии (ММК) — пример системной работы</div>
+      </div>
+    </div>
+
+    <div class="chart" style="margin-top:16px">
+      <div class="chart__title">Структура патентной активности по направлениям (2025)</div>
+      <div class="chart__row"><div class="chart__label">Медицинские технологии</div><div class="chart__track"><div class="chart__fill chart__fill--accent" style="width:38%"></div></div><div class="chart__val">3 000+</div></div>
+      <div class="chart__row"><div class="chart__label">Пищевая химия</div><div class="chart__track"><div class="chart__fill" style="width:22%"></div></div><div class="chart__val">+35.7%</div></div>
+      <div class="chart__row"><div class="chart__label">Экологические технологии</div><div class="chart__track"><div class="chart__fill" style="width:18%"></div></div><div class="chart__val">+27%</div></div>
+      <div class="chart__row"><div class="chart__label">ИТ и ИИ</div><div class="chart__track"><div class="chart__fill chart__fill--gold" style="width:12%"></div></div><div class="chart__val">—</div></div>
+    </div>
+
+    <div class="callout" style="margin-top:16px">
+      <div class="callout__title">Ключевой разрыв</div>
+      <p>Патентная активность растёт, но в основном за счёт вузов и НИИ. В ИТ-секторе и сфере ИИ рационализаторство как массовое движение отсутствует. Компании предпочитают покупать готовые решения, а не создавать свои.</p>
+    </div>
+  </div>
+  <div class="page__footer"><span>Рационализаторство · Научный подход</span><span>09 · Парадокс</span></div>
+</section>
+
+<!-- PAGE 11 · WHAT TO DO -->
+<section class="page">
+  <div class="deco-circle deco-circle--blue" style="top:-30mm;left:-30mm;width:100mm;height:100mm"></div>
+  <div class="page__mark">10 · Что делать</div>
+  <div class="page__num">11 / 16</div>
+  <div class="page__inner" style="padding-top:16mm">
+    <div class="kicker">Практические выводы</div>
+    <h2 class="h-sec">Как <em>возродить</em> культуру</h2>
+
+    <div class="callout" style="margin-top:0">
+      <div class="callout__title">Для руководителей</div>
+      <ol class="list-num">
+        <li><strong>Выделите время на эксперименты.</strong> 10–15% рабочего времени на исследовательские проекты, не связанные с текущими задачами.</li>
+        <li><strong>Вознаграждайте за внедрённые идеи.</strong> Привяжите бонусы к измеримому эффекту, а не к количеству поданных предложений.</li>
+        <li><strong>Создайте «песочницу» для пилотов.</strong> Безопасная среда для тестирования идей без риска для основного продукта.</li>
+      </ol>
+    </div>
+
+    <div class="callout" style="margin-top:12px">
+      <div class="callout__title">Для сотрудников</div>
+      <ol class="list-num">
+        <li><strong>Фиксируйте идеи.</strong> Ведите личный «банк идей» — даже если сейчас нет времени на реализацию.</li>
+        <li><strong>Начинайте с малого.</strong> Автоматизация рутины, оптимизация процессов — это тоже рационализаторство.</li>
+        <li><strong>Делитесь результатами.</strong> Внутренние митапы и демо-дни помогают найти единомышленников и поддержку.</li>
+      </ol>
+    </div>
+
+    <div class="callout" style="margin-top:12px">
+      <div class="callout__title">Для компаний</div>
+      <ol class="list-num">
+        <li><strong>Встройте рационализаторство в культуру.</strong> Не как кампанию, а как постоянный процесс.</li>
+        <li><strong>Измеряйте эффект.</strong> В ИТ это может быть снижение времени на задачу, уменьшение количества багов, рост удовлетворённости пользователей.</li>
+        <li><strong>Будьте прозрачны.</strong> Показывайте, какие идеи были приняты и почему, чтобы поддерживать доверие.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="page__footer"><span>Рационализаторство · Научный подход</span><span>10 · Что делать</span></div>
+</section>
+
+<!-- PAGE 12 · CONCLUSION -->
+<section class="page page--dark">
+  <div class="deco-circle deco-circle--accent" style="top:-40mm;right:-40mm;width:130mm;height:130mm;opacity:.2"></div>
+  <div class="page__mark">11 · Итоги</div>
+  <div class="page__num">12 / 16</div>
+  <div class="page__inner" style="padding-top:16mm">
+    <div class="kicker">Итоги</div>
+    <h2 class="h-sec" style="color:#fff">Научный подход <em>не устарел</em></h2>
+
+    <div class="g2">
+      <div class="callout" style="margin-top:0;border-color:rgba(255,255,255,.25)">
+        <div class="callout__title" style="color:#fff">Что мы узнали</div>
+        <p style="color:rgba(255,255,255,.7)">Советское рационализаторство было массовым, но не всегда эффективным. В рыночной экономике мотивация исчезла, а в ИТ-секторе рационализаторство так и не прижилось из-за перегрузки и краткосрочных KPI.</p>
+      </div>
+      <div class="callout" style="margin-top:0;border-color:rgba(255,255,255,.25)">
+        <div class="callout__title" style="color:#fff">Что делать</div>
+        <p style="color:rgba(255,255,255,.7)">Выделять время на эксперименты, вознаграждать за внедрённые идеи, создавать «песочницы» и встраивать рационализаторство в культуру компании.</p>
+      </div>
+    </div>
+
+    <blockquote class="quote" style="color:#fff;font-size:20px;margin-top:20px">
+      Рационализаторство — это не про количество поданных предложений.
+      Это про качество внедрённых решений и людей, которые их создают.
+      <cite>Алексей Прохоров</cite>
+    </blockquote>
+
+    <div class="expert" style="margin-top:20px;border-color:rgba(255,255,255,.2)">
+      <div class="expert__photo">
+        <img src="C9FFD587-B19C-4F19-BC04-3869F3C6DBF0.jpeg" alt="Алексей Прохоров">
+      </div>
+      <div>
+        <div class="expert__name" style="color:#fff">Алексей Прохоров</div>
+        <div class="expert__role" style="color:rgba(255,255,255,.7)">Директор по развитию технологий ИИ. Эксперт по цифровой трансформации в госорганах и компаниях. Автор книги «Записки директора по искусственному интеллекту».</div>
+        <div class="expert__links">
+          <a href="https://max.ru/alproailife" target="_blank" rel="noopener">Подписаться → MAX-канал</a>
+          <a href="mailto:director.brands@yandex.ru?subject=Заказ книги">Заказать книгу</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page__footer"><span>Рационализаторство · Научный подход</span><span>11 · Итоги</span></div>
+</section>
+
+<!-- PAGE 13 · CTA -->
+<section class="page">
+  <div class="page__inner" style="padding-top:16mm;display:flex;flex-direction:column">
+    <div class="kicker">Что дальше</div>
+    <h2 class="h-sec" style="font-size:52px;margin-top:16px">
+      Готовы <em>возродить</em><br>
+      культуру идей?
+    </h2>
+    <p class="lede" style="max-width:520px;margin-top:16px">
+      Если хотите глубже — в книге «Записки директора по искусственному интеллекту»
+      собраны практические инструменты, кейсы и инсайты, которых не найти
+      в учебниках. А в MAX-канале — свежие разборы регуляторных изменений
+      и практика внедрения ИИ.
+    </p>
+
+    <div class="bignum-panel" style="margin-top:24px">
+      <div>
+        <div class="bignum-label">Страниц в книге</div>
+        <div class="bignum">163</div>
+      </div>
+      <div>
+        <div class="bignum-label">Глав и разделов</div>
+        <div class="bignum">13</div>
+      </div>
+    </div>
+
+    <div style="margin-top:auto;display:flex;gap:20px;flex-wrap:wrap">
+      <a href="mailto:director.brands@yandex.ru?subject=Заказ книги" class="btn">Заказать книгу →</a>
+      <a href="https://max.ru/alproailife" target="_blank" rel="noopener" class="btn btn--ghost">MAX-канал @alproailife →</a>
+    </div>
+
+    <div class="cta" style="margin-top:24px">
+      <h3>Готовы пройти путь увереннее?</h3>
+      <p>Гайд собран из реальных кейсов, ошибок и побед. В нём нет «воды» — только работающие инструменты, живые истории и полезные инсайты.</p>
+      <div class="cta__meta">
+        <span>16 страниц</span>
+        <span>2026</span>
+        <span>Рационализаторство · Научный подход</span>
+      </div>
+    </div>
+  </div>
+  <div class="page__footer"><span>Рационализаторство · Научный подход</span><span>12 · Финал</span></div>
+</section>
+
+</main>
+
+<script>
+async function downloadPDF(){
+  const btn = document.getElementById('downloadBtn');
+  const label = document.getElementById('downloadText');
+  const original = label.textContent;
+  if (typeof html2canvas === 'undefined' || typeof window.jspdf === 'undefined') {
+    alert('Библиотека ещё загружается. Подождите пару секунд и попробуйте снова.');
+    return;
+  }
+  btn.disabled = true;
+  label.textContent = 'Готовим PDF…';
+  try {
+    const { jsPDF } = window.jspdf;
+    const A4_W = 210, A4_H = 297;
+    const pages = document.querySelectorAll('.page');
+    let pdf = null;
+    for (let i = 0; i < pages.length; i++) {
+      const pageEl = pages[i];
+      const pageRect = pageEl.getBoundingClientRect();
+      const links = [];
+      pageEl.querySelectorAll('a[href]').forEach(a => {
+        const r = a.getBoundingClientRect();
+        links.push({ href: a.href, x: r.left - pageRect.left, y: r.top - pageRect.top, w: r.width, h: r.height });
+      });
+      const canvas = await html2canvas(pageEl, {
+        scale: 2, useCORS: true, backgroundColor: '#FCFBF7',
+        width: pageEl.offsetWidth, height: pageEl.offsetHeight,
+        windowWidth: pageEl.offsetWidth, windowHeight: pageEl.offsetHeight
+      });
+      const imgData = canvas.toDataURL('image/jpeg', 0.95);
+      if (i === 0) {
+        pdf = new jsPDF({ unit:'mm', format:[A4_W, A4_H], orientation:'portrait', compress:true });
+      } else {
+        pdf.addPage([A4_W, A4_H], 'portrait');
+      }
+      const imgRatio = canvas.width / canvas.height;
+      const pageRatio = A4_W / A4_H;
+      let imgW, imgH, offsetX, offsetY;
+      if (imgRatio > pageRatio) {
+        imgW = A4_W; imgH = A4_W / imgRatio; offsetX = 0; offsetY = (A4_H - imgH) / 2;
+      } else {
+        imgH = A4_H; imgW = A4_H * imgRatio; offsetX = (A4_W - imgW) / 2; offsetY = 0;
+      }
+      pdf.addImage(imgData, 'JPEG', offsetX, offsetY, imgW, imgH, undefined, 'FAST');
+      const pxToMmX = imgW / pageEl.offsetWidth;
+      const pxToMmY = imgH / pageEl.offsetHeight;
+      links.forEach(l => { pdf.link(offsetX + l.x * pxToMmX, offsetY + l.y * pxToMmY, l.w * pxToMmX, l.h * pxToMmY, { url: l.href }); });
+    }
+    pdf.save('ratsionalizatorstvo-nauchny-podhod.pdf');
+    label.textContent = 'Готово!';
+    setTimeout(() => { label.textContent = original; }, 1800);
+  } catch (err) {
+    console.error(err);
+    alert('Ошибка при создании PDF: ' + err.message);
+    label.textContent = original;
+  } finally {
+    btn.disabled = false;
+  }
+}
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</body>
+</html>
